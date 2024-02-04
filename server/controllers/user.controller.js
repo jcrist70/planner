@@ -73,13 +73,13 @@ exports.loginUser = async (req,res) => {
     console.log('----> loginUser (user.controller 70)', email)
     try {
         dbUser = await User.findOne({ email });
-        // console.log('----> loginUser (user.controller 73) dbUser:', dbUser)
+        console.log('----> loginUser (user.controller 73) dbUser:', dbUser)
         if (dbUser) {
-            req.session.user = user;
+            req.session.user = dbUser;
             req.session.loginStatus = true;
-            user.loggedIn = true;
-            user.lastLoginAt = new Date();
-            res.json(user);
+            dbUser.loggedIn = true;
+            dbUser.lastLoginAt = new Date();
+            res.json(dbUser);
         } else {
             res.json({user: "user not found"});
         }

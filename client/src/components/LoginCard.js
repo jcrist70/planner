@@ -31,7 +31,7 @@ const LoginCard = () => {
                 user.idToken = idTokenResult.token;
                 console.log('----> user, user.email:', user.email, user)
                 const dbUser = await loginUser(idTokenResult.token, user.email, JSON.stringify(user));
-                // console.log("------------> dbUser:", dbUser.data)
+                console.log("------------> dbUser:", dbUser.data)
                 if (Object.keys(dbUser.data).includes("error")) {
                   if (dbUser.data.error === "User not found") {
                     // User is in FB but NOT in DB
