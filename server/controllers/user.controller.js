@@ -19,7 +19,7 @@ exports.dbCheckRegistrationAuthorization = async (req,res) => {
           email: authorizedUser.email,
         });
     } else {
-        console.log(`----x dbCheckRegistrationAuthorization (user.controller 19) authorizedUser ${email} not found.`)
+        console.log(`----x dbCheckRegistrationAuthorization (user.controller 22) authorizedUser ${email} not found.`)
         res.send({
             email: "not found",
           });
@@ -28,22 +28,22 @@ exports.dbCheckRegistrationAuthorization = async (req,res) => {
 
 exports.dbCreateUser = async (req,res) => {
     const newUser = req.body.user;
-    console.log('----> dbCreateUser (user.controller 8)', newUser)
+    console.log('----> dbCreateUser (user.controller 31)', newUser)
     const { accessToken, name, email, role, region, emailVerified, photoURL, metadata, stsTokenManager } = newUser;
     console.log('---> dbCreateUser email ----> ', email)
     let dbUser = null;
     let authorizedUser = null;
     try {
         authorizedUser = await AuthorizedUsers.findOne({ email });
-        console.log('----> dbCreateUser (user.controller 23) authorizedUser:', authorizedUser);
+        console.log('----> dbCreateUser (user.controller 38) authorizedUser:', authorizedUser);
     } catch (err) {
-        console.log('----x dbCreateUser findOne (user.controller 25):', err)
+        console.log('----x dbCreateUser findOne (user.controller 40):', err)
     }
     try {
         dbUser = await User.findOne({ email });
         // console.log('----> dbCreateUser (user.controller 16) dbUser:', dbUser)
     } catch (err) {
-        console.log('----x dbCreateUser findOne (user.controller 17):', err)
+        console.log('----x dbCreateUser findOne (user.controller 46):', err)
     }
     if (dbUser) {
         const msg = `This email ( ${email} ) is already in use.`
@@ -54,19 +54,39 @@ exports.dbCreateUser = async (req,res) => {
             newUser.name = authorizedUser.name;
             newUser.role = authorizedUser.role;
             newUser.region = authorizedUser.region;
-            console.log('----> dbCreateUser (user.controller 37) newUser with updates:', newUser)
+            newUser.accessToken = newUser.stsTokenManager.accessToken;
+            newUser.refreshToken = newUser.stsTokenManager.refreshToken;
+            newUser.expirationTime = newUser.stsTokenManager.expirationTime;
+            console.log('----> dbCreateUser (user.controller 57) newUser with updates:', newUser)
             const createdUser = await new User(newUser).save();
-            console.log("----> dbCreateUser (user.controller 39) newUser with updates:", createdUser);
+            console.log("----> dbCreateUser (user.controller 59) newUser with updates:", createdUser);
             res.status(200).json(createdUser);
         } catch (err) {
-            console.log('----x dbCreateUser new User (user.controller 43):', err)
+            console.log('----x dbCreateUser new User (user.controller 62):', err)
             res.status(200).json({error: "dB access failed"})
         }
     }
 }
 
 exports.loginUser = async (req,res) => {
- console.log("loginUser")
+    const email = req.body.email;
+    console.log('----> loginUser (user.controller 70)', email)
+    try {
+        dbUser = await User.findOne({ email });
+        // console.log('----> loginUser (user.controller 73) dbUser:', dbUser)
+        if (dbUser) {
+            req.session.user = user;
+            req.session.loginStatus = true;
+            user.loggedIn = true;
+            user.lastLoginAt = new Date();
+            res.json(user);
+        } else {
+            res.json({user: "user not found"});
+        }
+    } catch (err) {
+        console.log('----x loginUser findOne (user.controller 81):', err)
+        res.send({user: "db fail"})
+    }
 }
 
 exports.dbGetUser = async (req,res) => {

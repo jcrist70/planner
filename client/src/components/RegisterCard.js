@@ -47,10 +47,10 @@ const RegisterCard = () => {
             console.log('----> createUserWithEmailAndPassword res.user:', res.user);
             if (res.user.accessToken) {
               // CREATE DB USER
-              await dbCreateUser(res.user.accessToken, email, res.user,)
+              await dbCreateUser(res.user.accessToken, email, res.user)
               .then((dbResponse) => {
                 console.log('----> createUser dbResponse.data:', dbResponse.data);
-                navigate('/');
+                dispatch(setContext('login'));
               })
               .catch((err) => {
               });
