@@ -7,6 +7,8 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { auth, googleAuthProvider } from '../config/fb';
 // APIS
 import { dbCreateUser, dbCheckRegistrationAuthorization } from '../apis/user.api';
+// REDUX
+import { setContext, setPage } from '../redux/app.slice';
 
 
 const RegisterCard = () => {
@@ -26,14 +28,14 @@ const RegisterCard = () => {
       };
 
     const handleRegister = async (e) => {
+      console.log("!! handleRegister !!")
       let authorized = null;
       try {
-        // authorized = await dbCheckRegistrationAuthorization(email);
-        authorized = {
-          email: 'jcrist70@gmail.com'
-        }
+        authorized = await dbCheckRegistrationAuthorization(email);
+        authorized = authorized.data;
+        console.log('!! authorized:', authorized)
       } catch (err) {
-        // console.log('\n\n REQUEST TO DB QUEUED USERS FAILED:', err, '\n\n');
+        console.log('dbCheckRegistrationAuthorization fail:', err);
       }
       // If user exists in the authorizedUsers collection, add to FB and create a User entry in the DB
       if (authorized && (authorized.email.toLowerCase() === email.toLowerCase())) {  
@@ -44,7 +46,7 @@ const RegisterCard = () => {
             console.log('----> createUserWithEmailAndPassword res.user:', res.user);
             if (idTokenResult) {
               // CREATE DB USER
-              await dbCreateUser(idTokenResult, res.user.email, res.user,)
+              await dbCreateUser(idTokenResult, email, res.user,)
               .then((dbResponse) => {
                 console.log('----> createUser dbResponse.data:', dbResponse.data);
                 navigate('/');
@@ -58,10 +60,13 @@ const RegisterCard = () => {
           .catch((err) => {
             console.log("----x createUserWithEmailAndPassword error:", typeof err, Object.keys(err), err.code, err.name, err);
             if (err.code === "auth/email-already-in-use") {
+              // switch to login
+              dispatch(setContext('login'));
             }
           });
       } else {
-        // IF USER NOT IN QUEUE
+        // IF USER NOT AUTHORIZED
+        console.log(`This user ${email} is not authorized.`)
       }
     };
 

@@ -25,7 +25,7 @@ export const loginUser = async (authtoken, email, user) => {
   };
 
   export const dbCheckRegistrationAuthorization = async (email) => {
-    // console.log('----------> dbCheckRegistrationAuthorization email:', email)
+    console.log('----------> dbCheckRegistrationAuthorization email:', email)
     const promise = await new Promise((resolve, reject) => {
       const axiosInstance = axios.create({
         withCredentials: true
