@@ -27,8 +27,9 @@ const RegisterCard = () => {
         ); // eslint-disable-line
       };
 
+    // ATTEMPT TO REGISTER NEW USER USING EMAIL & PASWORD
     const handleRegister = async (e) => {
-      console.log("!! handleRegister !!")
+      console.log("!! ATTEMPT TO REGISTER NEW USER USING EMAIL & PASWORD !!")
       let authorized = null;
       try {
         authorized = await dbCheckRegistrationAuthorization(email);
@@ -41,12 +42,12 @@ const RegisterCard = () => {
       if (authorized && (authorized.email.toLowerCase() === email.toLowerCase())) {  
         createUserWithEmailAndPassword(auth, email, password)
           .then(async (res) => {
-            const idTokenResult = await res.user.getIdTokenResult();
+            // const idTokenResult = await res.user.getIdTokenResult();
             res.user.name = authorized.name;
             console.log('----> createUserWithEmailAndPassword res.user:', res.user);
-            if (idTokenResult) {
+            if (res.user.accessToken) {
               // CREATE DB USER
-              await dbCreateUser(idTokenResult, email, res.user,)
+              await dbCreateUser(res.user.accessToken, email, res.user,)
               .then((dbResponse) => {
                 console.log('----> createUser dbResponse.data:', dbResponse.data);
                 navigate('/');

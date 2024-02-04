@@ -55,7 +55,7 @@ export const loginUser = async (authtoken, email, user) => {
       });
       const response = axiosInstance.post(
         process.env.REACT_APP_SERVER + '/user/create',
-        { email },
+        { email, user },
         config
       );
       resolve(response);

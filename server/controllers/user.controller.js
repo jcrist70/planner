@@ -28,8 +28,8 @@ exports.dbCheckRegistrationAuthorization = async (req,res) => {
 
 exports.dbCreateUser = async (req,res) => {
     const newUser = req.body.user;
-    console.log('----> dbCreateUser (user.controller 8)')
-    const { apiKey, name, email, userData, emailVerified, loggedIn, lastLoginAt, role, refreshToken, accessToken, accessTokenPrev, expirationTime, region } = req.body.user;
+    console.log('----> dbCreateUser (user.controller 8)', newUser)
+    const { accessToken, name, email, role, region, emailVerified, photoURL, metadata, stsTokenManager } = newUser;
     console.log('---> dbCreateUser email ----> ', email)
     let dbUser = null;
     let authorizedUser = null;
@@ -45,7 +45,7 @@ exports.dbCreateUser = async (req,res) => {
     } catch (err) {
         console.log('----x dbCreateUser findOne (user.controller 17):', err)
     }
-    if (user) {
+    if (dbUser) {
         const msg = `This email ( ${email} ) is already in use.`
         console.log(msg);
         res.send(msg);
@@ -66,9 +66,9 @@ exports.dbCreateUser = async (req,res) => {
 }
 
 exports.loginUser = async (req,res) => {
-
+ console.log("loginUser")
 }
 
 exports.dbGetUser = async (req,res) => {
-
+    console.log("dbGetUser")
 }

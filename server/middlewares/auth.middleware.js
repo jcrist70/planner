@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 exports.authCheck = async (req, res, next) => {
   console.log('---- authCheck (auth.middleware 4)');
   const token = req.headers.authtoken || req.session.user.authToken;
-  console.log('authCheck Session loggedIn (auth.middleware 7) ----> ', req.session.loggedIn);
+  console.log('authCheck Session loggedIn (auth.middleware 7) ----> ', token, req.session.loggedIn);
   try {
     const firebaseUser = await admin.auth()
       .verifyIdToken(token);
