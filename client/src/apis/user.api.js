@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+export const verifyUser = async () => {
+  const promise = await new Promise((resolve, reject) => {
+    const axiosInstance = axios.create({
+      withCredentials: true
+    });
+    const response = axiosInstance.get(process.env.REACT_APP_SERVER + '/user/verify');
+    resolve(response);
+  });
+  // console.log('-----------> /user/verify RESPONSE:', promise)
+  return promise;
+};
 
 export const loginUser = async (authtoken, email, user) => {
     // console.log('----------> setCurrentUserloginUser authtoken:', authtoken)
@@ -15,7 +26,7 @@ export const loginUser = async (authtoken, email, user) => {
       });
       const response = axiosInstance.post(
         process.env.REACT_APP_SERVER + '/user/login',
-        { email, user },
+        { email, user, authtoken },
         config
       );
       resolve(response);
