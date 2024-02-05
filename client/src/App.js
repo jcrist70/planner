@@ -18,8 +18,8 @@ function App() {
   
   useEffect(() => {
     setInterval(() => {
-      // refreshToken();
-    }, 10000);
+      refreshToken();
+    }, 30000);
   }, [])
 
   const refreshToken = async () => {
@@ -30,8 +30,8 @@ function App() {
       if (verification.data.cookie !== 'expired' && parseInt(verification.data.expiresIn) <= 5) {
         auth.currentUser.getIdToken(true).then(async function (idToken) {
           console.log('refreshToken ===========>> idToken:', idToken)
-          // const response = await updateSession(idToken); // eslint-disable-line
-          // console.log('======> TOKEN REFRESHED:', response)
+          const response = await updateSession(idToken); // eslint-disable-line
+          console.log('======> TOKEN REFRESHED:', response)
           try {
             // const dbUser = await updateCurrentUserTokens(idToken, email); // eslint-disable-line
           } catch (err) {

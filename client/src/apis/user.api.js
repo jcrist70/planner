@@ -12,6 +12,24 @@ export const verifyUser = async () => {
   return promise;
 };
 
+export const updateSession = async (authtoken) => {
+  const config = {
+    headers: {
+      authtoken
+    }
+  };
+  const promise = await new Promise((resolve, reject) => {
+    const axiosInstance = axios.create({
+      withCredentials: true
+    });
+    const response = axiosInstance.get(
+      process.env.REACT_APP_API + '/user/session/update'
+    );
+    resolve(response);
+  });
+  return promise;
+}
+
 export const loginUser = async (authtoken, email, user) => {
     // console.log('----------> setCurrentUserloginUser authtoken:', authtoken)
     // console.log('-----> loginUser user:', user)

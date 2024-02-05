@@ -134,3 +134,13 @@ exports.verifyUser = async (req,res) => {
         res.send({cookie: "expired", loggedIn: false, role: ''})
       }
 }
+
+exports.updateSession = async (req,res) => {
+    console.log('---- updateSession (user.controller 138):')
+    req.session.cookie._expires = new Date().addHours(1);
+    let user = req.session.user;
+    user.accessTokenPrev = user.accessToken; 
+    user.accessToken = req.body.authToken;
+    req.session.user = user;
+    res.status(200).json({status: 'success'});
+}
