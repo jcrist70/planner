@@ -50,6 +50,9 @@ const RegisterCard = () => {
               await dbCreateUser(res.user.accessToken, email, res.user)
               .then((dbResponse) => {
                 console.log('----> createUser dbResponse.data:', dbResponse.data);
+                sendEmailVerification(auth.currentUser).then(() => {
+                  console.log('!! VERIFICATION EAMAIL SENT !!')
+                });
                 dispatch(setContext('login'));
               })
               .catch((err) => {

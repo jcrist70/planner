@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
  
 import userSlice from './user.slice';
@@ -9,6 +9,11 @@ const store = configureStore({
         app: appSlice,
         user: userSlice,
     },
+    middleware: (getDefaultMileware) => {
+        return getDefaultMileware({
+            serializableCheck: false
+        }).concat()
+    }
     // middleware: (getDefaultMileware) => {
     //     return getDefaultMileware({
     //         serializableCheck: false

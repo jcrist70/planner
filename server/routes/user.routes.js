@@ -6,7 +6,7 @@ const { verifyUser, updateSession, loginUser, dbCreateUser, dbGetUser, dbCheckRe
 
 router.post("/user/check/registration/authorization", dbCheckRegistrationAuthorization);
 router.post("/user/create", authCheck, dbCreateUser);
-router.get("/user/verify", authCheck, verifyUser);
+router.get("/user/verify", verifyUser);
 router.get("/user/session/update", authCheck, updateSession);
 router.post("/user/login", authCheck, loginUser);
 router.post("/user/get", authCheck, dbGetUser);

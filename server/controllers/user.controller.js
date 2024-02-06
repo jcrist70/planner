@@ -72,7 +72,7 @@ exports.loginUser = async (req,res) => {
     const email = req.body.email;
     const token = req.body.authtoken;
     const user = JSON.parse(req.body.user);
-    console.log('----> loginUser (user.controller 75)', email, user)
+    console.log('----> loginUser (user.controller 75): FB email, verified', email, user.emailVerified)
     try {
         dbUser = await User.findOne({ email });
         console.log('----> loginUser (user.controller 78) dbUser.email:', dbUser.email)
@@ -111,28 +111,31 @@ exports.dbGetUser = async (req,res) => {
 let test = true;
 let verifyUserCount = -1;
 exports.verifyUser = async (req,res) => {
-    console.log('---- verifyUser (user.controller 101) req.session:', req.session)
-    try {
-        let expiresIn = ((new Date(req.session.cookie.expires) - new Date())/1000/60).toFixed(2);
-        console.log('---- verifyUser (user.controller 101) expiresIn:', expiresIn)
-        
-        if (test) {
-          expiresIn = 4;
-          test = false;
-        } 
-    
-        if (verifyUserCount === 0) {
-          console.log('---- verifyUser (user.controller 113):', req.session.user.email, req.session.cookie._expires)
-        } else if (verifyUserCount >= 10) {
-            verifyUserCount = -1;
-        }
-        verifyUserCount++;
-
-        res.send({ expiresIn, cookie: req.session.cookie, loggedIn: req.session.loggedIn || false, role: req.session.user.role || ''})
-      } catch (err) {
-        console.log('----x verifyUser (user.controller 120):', err)
-        res.send({cookie: "expired", loggedIn: false, role: ''})
-      }
+    if (req.session.user) {
+        console.log('---- verifyUser (user.controller 114):', req.session.user.email)
+        try {
+            let expiresIn = ((new Date(req.session.cookie.expires) - new Date())/1000/60).toFixed(2);
+            if (test) {
+              expiresIn = 4;
+              test = false;
+            } 
+            if (verifyUserCount === 0) {
+              console.log('---- verifyUser (user.controller 123):', req.session.user.email, req.session.cookie._expires)
+            } else if (verifyUserCount >= 10) {
+                verifyUserCount = -1;
+            }
+            verifyUserCount++;
+            const loggedIn = req.session.loggedIn || false;
+            const role = req.session.user.role || '';
+            res.send({ expiresIn, status: "valid", loggedIn, role})
+          } catch (err) {
+            console.log('----x verifyUser (user.controller 136):', err)
+            res.send({status: "expired", loggedIn: false, role: ''})
+          }
+    } else {
+        console.log('---- verifyUser (user.controller 137) NO SESSION!!!')
+        res.send({status: "no session", loggedIn: false, role: ''})
+    }   
 }
 
 exports.updateSession = async (req,res) => {
@@ -141,6 +144,11 @@ exports.updateSession = async (req,res) => {
     let user = req.session.user;
     user.accessTokenPrev = user.accessToken; 
     user.accessToken = req.body.authToken;
-    req.session.user = user;
+    try {
+        const updatedDbUser = await User.findOneAndUpdate({ email: user.email }, user, { new: true }).exec();
+        req.session.user = user;
+    } catch (err) {
+        res.status(200).json({status: 'fail'});
+    }
     res.status(200).json({status: 'success'});
 }

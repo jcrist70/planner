@@ -12,8 +12,11 @@ import GridTemplate from './pages/GridTemplate';
 import Home from './pages/Home';
 // API
 import { verifyUser } from './apis/user.api';
+// REDUX 
+import { setLoginStatus } from './redux/user.slice';
 
 function App() {
+  const dispatch = useDispatch();
   const { email } = useSelector((state) => state.user, shallowEqual);
   
   useEffect(() => {
@@ -27,21 +30,19 @@ function App() {
     try{
       const verification = await verifyUser();
       console.log('refreshToken ===========>> verification:', verification)
-      if (verification.data.cookie !== 'expired' && parseInt(verification.data.expiresIn) <= 5) {
+      // If the token has not expired AND will expire within 5 min, refresh
+      if (verification.data.status !== 'expired' && parseInt(verification.data.expiresIn) <= 5) {
         auth.currentUser.getIdToken(true).then(async function (idToken) {
           console.log('refreshToken ===========>> idToken:', idToken)
           const response = await updateSession(idToken); // eslint-disable-line
           console.log('======> TOKEN REFRESHED:', response)
-          try {
-            // const dbUser = await updateCurrentUserTokens(idToken, email); // eslint-disable-line
-          } catch (err) {
-            // TBD remove log
-            // console.log('updateSession, reloadSesion err:', err)
-          } // reloadSession
         })
         .catch(function (error) {  // eslint-disable-line
           // console.log('===> REFRESH TOKEN ERROR:', error)
         });
+      } else if (verification.data.status === 'no session') {
+        // LOGOUT LOCALLY
+        dispatch(setLoginStatus(false));
       }
     } catch (err) {
       console.log('!! AUTO LOGIN ERROR !!', err)

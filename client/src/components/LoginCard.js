@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword, signInWithPopup, sendEmailVerification } fr
 import { auth, googleAuthProvider } from '../config/fb';
 // APIS
 import { loginUser } from '../apis/user.api';
+import { setUser, setLoginStatus } from '../redux/user.slice';
 
 
 const LoginCard = () => {
@@ -40,6 +41,7 @@ const LoginCard = () => {
                 } else {
                     if (user.emailVerified === true || dbUser.emailVerified === true) {
                         console.log('!! USER IS VERIFIED !!')
+                        dispatch(setUser(dbUser));
                         //   try {
                         //     await reloadSession().then(async (res) => {
                         //       user = res.data;
@@ -54,6 +56,10 @@ const LoginCard = () => {
                         //     return null;
                         //   }
                         navigate('/summary');
+                    } else {
+                      sendEmailVerification(auth.currentUser).then(() => {
+                        console.log('!! USER NOT VERIFIED, VERIFICATION EAMAIL SENT !!')
+                      });
                     }
                 }
               })
