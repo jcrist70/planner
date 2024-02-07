@@ -14,6 +14,11 @@
     justify-content: right;
     align-items: center;
 }
+.nav-bar-sec-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .nav-bar-sec-lft {
     display: flex;
     justify-content: left;

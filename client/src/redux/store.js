@@ -14,11 +14,6 @@ const store = configureStore({
             serializableCheck: false
         }).concat()
     }
-    // middleware: (getDefaultMileware) => {
-    //     return getDefaultMileware({
-    //         serializableCheck: false
-    //     }).concat()
-    // }
 });
 
 setupListeners(store.dispatch);

@@ -40,7 +40,7 @@ const LoginCard = () => {
                   }
                 } else {
                     if (user.emailVerified === true || dbUser.emailVerified === true) {
-                        console.log('!! USER IS VERIFIED !!')
+                        console.log('!! USER IS VERIFIED !!', dbUser)
                         dispatch(setUser(dbUser));
                         //   try {
                         //     await reloadSession().then(async (res) => {

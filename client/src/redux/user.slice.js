@@ -29,6 +29,17 @@ export const userSlice = createSlice({
             state.region = action.payload.data.region;
             state.role = action.payload.data.role;
         },
+        resetUser: (state, action) => {
+            console.log('!!!!!! resetUser !!!!!!')
+            state.loggedIn = false;
+            state.email = '';
+            state.emailVerified = false;
+            state.lastLoginAt = null;
+            state.name = '';
+            state.region = null;
+            state.role = '';
+            state.accessToken = null;
+        },
         setLoginStatus: (state, action) => {
             state.loginStatus = action.payload;
         },
@@ -47,6 +58,7 @@ export const userSlice = createSlice({
 export const {
     setId,
     setUser,
+    resetUser,
     setLoginStatus,
     setEmailVerified,
     setRole,
