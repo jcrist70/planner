@@ -1,0 +1,54 @@
+.debt-bar {
+    width: 280px;
+    height: 30px;
+    padding-left: 3px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #ffca4e;
+ }
+ 
+ .debt-bar-element-index {
+    height: 26px;
+    width: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(218, 215, 215);
+ }
+ .debt-bar-element-title {
+    height: 26px;
+    width: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(231, 229, 229);
+    overflow-x: scroll;
+    overflow-y: hidden;
+ }
+ .debt-bar-element-amount {
+   height: 26px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(239, 239, 239);
+ }
+ .debt-bar-element-x {
+   margin-left: 5px;
+   display: flex;
+   justify-content: right;
+   align-items: center;
+   font-size: 14px;
+ }
+ 

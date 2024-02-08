@@ -1,0 +1,30 @@
+
+.debts-2r2c-14h11w {
+    margin-left: 10px;
+    grid-row: 2/16;
+    grid-column: 2/13;
+    background-color: rgba(214, 255, 173, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.debts-3r3c-12h4w {
+    margin-left: 10px;
+    grid-row: 3/15;
+    grid-column: 3/7;
+    background-color: rgba(147, 107, 47, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.debts-3r8c-12h4w {
+    margin-left: 10px;
+    grid-row: 3/15;
+    grid-column: 8/12;
+    background-color: rgba(211, 153, 67, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

@@ -7,6 +7,7 @@ import { auth } from './config/fb';
 // COMPONENTS
 import Navbar from './components/Navbar';
 // PAGES
+import Debts from './pages/Debts';
 import Summary from './pages/Summary'
 import GridTemplate from './pages/GridTemplate';
 import Home from './pages/Home';
@@ -63,6 +64,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
+          <Route path='/debts' element={<Debts />} />
           <Route path='/summary' element={<Summary />} />
           <Route path='/grid' element={<GridTemplate />} />
         </Routes>

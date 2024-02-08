@@ -47,7 +47,7 @@ const Navbar = () => {
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/credits')}>
                 Credits
                 </div>}
-                {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/debits')}>
+                {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/debts')}>
                 Debits
                 </div>}
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/summary')}>
