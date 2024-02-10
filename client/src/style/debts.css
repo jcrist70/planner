@@ -9,16 +9,18 @@
     align-items: center;
 }
 
-.debts-2r3c-2h8w {
+
+.debts-2r3c-2h11w {
     margin-left: 10px;
     grid-row: 2/4;
-    grid-column: 2/10;
+    grid-column: 2/13;
     background-color: rgba(255, 221, 169, 1);
     display: flex;
     justify-content: space-around;
     align-items: center;
     z-index: 2000;
 }
+
 .debts-4r3c-13h8w {
     margin-left: 10px;
     grid-row: 4/16;

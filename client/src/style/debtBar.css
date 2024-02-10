@@ -37,7 +37,7 @@
  }
  .debt-bar-element-item {
     height: 26px;
-    width: 55px;
+    width: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,7 +55,7 @@
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(255, 255, 255);
  }
  .debt-bar-element-cycle {
    height: 26px;
@@ -65,7 +65,7 @@
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(255, 255, 255);
  }
  .debt-bar-element-freq {
    height: 26px;
@@ -75,7 +75,17 @@
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(255, 255, 255);
+ }
+ .debt-bar-element-supplier {
+   height: 26px;
+    width: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(233, 233, 233);
  }
  .debt-bar-element-x {
    margin-left: 5px;

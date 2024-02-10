@@ -16,15 +16,22 @@ const types = [
   {label: 'insurance', value: 'insurance'},
   {label: 'tuition', value: 'tuition'},
 ]
+const cycles = [
+  {label: 'day', value: 'day'},
+  {label: 'week', value: 'week'},
+  {label: 'month', value: 'month'},
+  {label: 'year', value: 'year'},
+  {label: 'multi-year', value: 'multi-year'},
+]
 
 const Debts = () => {
-  const [value, onChange] = useState(new Date());
   const [ type, setType ] = useState(null);
-  const [ date, setDate ] = useState(null);
+  const [ date, setDate ] = useState(new Date());
   const [ item, setItem ] = useState(null);
   const [ price, setPrice ] = useState(null);
   const [ cycle, setCycle ] = useState(null);
   const [ freq, setFreq ] = useState(null);
+  const [ supplier, setSupplier ] = useState('default');
   const [ tableData, setTableData ] = useState([{type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, date: "02/09/24"}])
     
   useEffect(() => {
@@ -48,8 +55,9 @@ const Debts = () => {
       date: formattedDate,
       item,
       price,
-      cycle,
-      frequency: freq
+      cycle: cycle.label,
+      frequency: freq,
+      supplier
     }
     console.log('addDebt debt:', debt)
     if (!Object.values(debt).includes(null)) {
@@ -70,7 +78,7 @@ const Debts = () => {
           <div className='app-planner-grid'>
             <div className='app-planner-header'>Debts</div>
             <div className='debts-2r2c-14h11w'></div>
-            <div className='debts-2r3c-2h8w'>
+            <div className='debts-2r3c-2h11w'>
               {false && <DebtBar addDebt={addDebt} />}
               <Select maxMenuHeight={150} 
               className=""
@@ -79,13 +87,21 @@ const Debts = () => {
               onChange={(option) => setType(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
          
-               <DatePicker className="debt-bar-element-date" selected={date} onChange={(date) => setDate(date)} />
-           
-              {false && <input className="debt-bar-element-date" placeholder='date' onChange={(e) => setDate(e.target.value)}/>}
+              <DatePicker className="debt-bar-element-date" selected={date} onChange={(date) => setDate(date)} />
+              
               <input className="debt-bar-element-item" placeholder='item' onChange={(e) => setItem(e.target.value)} />
               <input className="debt-bar-element-price" placeholder='price' onChange={(e) => setPrice(e.target.value)} />
-              <input className="debt-bar-element-cycle" placeholder='cycle' onChange={(e) => setCycle(e.target.value)} />
+              
+              <Select maxMenuHeight={150} 
+              className=""
+              value={cycle} 
+              options={cycles} 
+              onChange={(option) => setCycle(option)} 
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
+         
+              {false && <input className="debt-bar-element-cycle" placeholder='cycle' onChange={(e) => setCycle(e.target.value)} />}
               <input className="debt-bar-element-freq" placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
+              <input className="debt-bar-element-supplier" placeholder='supplier' onChange={(e) => setSupplier(e.target.value)} />
             <div className="debt-bar-element-add" style={{ color: "green" }} onClick={addDebt}>Add</div>  
             
             </div>

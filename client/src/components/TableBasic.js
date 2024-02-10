@@ -71,6 +71,12 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
         enableGrouping: true,
         size: 100,
       },
+      {
+        header: 'Supplier',
+        accessorKey: 'supplier',
+        enableGrouping: true,
+        size: 100,
+      },
       // {
       //   header: 'Complete',
       //   accessorKey: 'complete',
