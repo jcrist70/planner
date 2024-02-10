@@ -49,7 +49,6 @@
     grid-row-gap: 1px;
     grid-column-gap: 50px;
     background-color: rgba(250, 232, 192, 0.3);
-    z-index: inherit;
 }
 .summary-section-title {
     font-size: 22px;

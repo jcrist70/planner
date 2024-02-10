@@ -1,6 +1,6 @@
 .debt-bar {
-    width: 280px;
-    height: 30px;
+    width: 600px;
+    height: 100px;
     padding-left: 3px;
     padding-right: 10px;
     display: flex;
@@ -10,9 +10,22 @@
     border-radius: 4px;
     overflow: hidden;
     background-color: #ffca4e;
+    z-index: 2000;
  }
- 
- .debt-bar-element-index {
+ .debt-bar-element-type {
+   height: 200px;
+   width: 150px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   border-radius: 4px;
+   background-color: rgb(255, 255, 255);
+   overflow: scroll;
+   /* overflow-y: hidden; */
+   z-index: 2100;
+}
+ .debt-bar-element-date {
     height: 26px;
     width: 65px;
     display: flex;
@@ -20,21 +33,41 @@
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(218, 215, 215);
+    background-color: rgb(255, 255, 255);
  }
- .debt-bar-element-title {
+ .debt-bar-element-item {
     height: 26px;
-    width: 140px;
+    width: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(231, 229, 229);
+    background-color: rgb(255, 255, 255);
     overflow-x: scroll;
     overflow-y: hidden;
  }
- .debt-bar-element-amount {
+ .debt-bar-element-price {
+   height: 26px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(239, 239, 239);
+ }
+ .debt-bar-element-cycle {
+   height: 26px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 4px;
+    background-color: rgb(239, 239, 239);
+ }
+ .debt-bar-element-freq {
    height: 26px;
     width: 55px;
     display: flex;
@@ -50,5 +83,17 @@
    justify-content: right;
    align-items: center;
    font-size: 14px;
+ }
+ .debt-bar-element-add {
+   margin-left: 5px;
+   height: 40px;
+   width: 60px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 16px;
+   font-weight: 500;
+   background-color: rgb(179, 255, 190);
+   border-radius: 4px;
  }
  

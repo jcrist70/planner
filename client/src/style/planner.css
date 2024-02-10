@@ -116,7 +116,6 @@
     background-color: rgba(87, 254, 143, 0.4);
     display: flex;
     overflow-y: scroll;
-    z-index: 300;
 }
 
 
@@ -162,7 +161,6 @@
     background-color: rgba(254, 182, 87, 0.4);
     display: flex;
     overflow-y: scroll;
-    z-index: 300;
 }
 
 .app-planner-15r3c-1h9w {
@@ -171,7 +169,6 @@
     background-color: rgba(254, 182, 87, 0.4);
     display: flex;
     overflow-y: scroll;
-    z-index: 300;
 }
 
 

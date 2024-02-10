@@ -8,6 +8,7 @@
     color: rgb(255, 255, 255);
     padding-left: 10px;
     padding-right: 10px;
+    z-index: 5000;
 }
 .nav-bar-sec-rt {
     display: flex;
@@ -45,7 +46,6 @@
     -moz-user-select:none;
     -ms-user-select:none;
     user-select:none;
-    z-index: 2000;
 }
 .nav-bar-link:active {
     transform: scale(.9);

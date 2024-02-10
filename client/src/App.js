@@ -15,15 +15,23 @@ import Home from './pages/Home';
 import { verifyUser } from './apis/user.api';
 // REDUX 
 import { setLoginStatus } from './redux/user.slice';
+import { setContext, setPage } from './redux/app.slice';
+
 
 function App() {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.user, shallowEqual);
+  const { loggedIn } = useSelector((state) => state.user, shallowEqual);
   
   useEffect(() => {
     setInterval(() => {
       refreshToken();
     }, 30000);
+    if (!loggedIn) {
+      console.log('NOT LOGGED IN')
+      dispatch(setContext('login'));
+      window.history.pushState({}, '', '/') ;
+    }
   }, [])
 
   const refreshToken = async () => {
