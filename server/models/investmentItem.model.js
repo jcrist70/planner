@@ -3,6 +3,11 @@ const { ObjectId } = mongoose.Schema;
 
 const investmentItemSchema = new mongoose.Schema(
   {
+    investmentId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     type: {
         type: String,
     },

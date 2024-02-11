@@ -3,6 +3,11 @@ const { ObjectId } = mongoose.Schema;
 
 const debtItemSchema = new mongoose.Schema(
   {
+    debtId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     type: {
         type: String,
     },

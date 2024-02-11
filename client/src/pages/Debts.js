@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { v4 as uuid }from 'uuid';
 
 import TableBasic from '../components/TableBasic';
 import DebtBar from '../components/DebtBar';
+// APIS
+import { addDebtApi } from '../apis/debt.api';
 
 const types = [
   {label: 'grocery', value: 'grocery'},
@@ -32,7 +36,7 @@ const accounts = [
 ]
 let suppliers = [
   {label: 'Amazon', value: 'amazon'},
-  {label: 'Market Basket', value: 'market-basket'},
+  {label: 'Market Basket', value: '65c9001790c8801d72a514ea'},
   {label: 'Hannaford', value: 'hannaford'},
   {label: 'COOP Hanover', value: 'coop-hanover'},
   {label: 'COOP Concord', value: 'coop-concord'},
@@ -57,6 +61,8 @@ const Debts = () => {
   const [ tableData, setTableData ] = useState([]);
   // {type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, startDate: "02/09/24"}
 
+  const { email } = useSelector((state) => state.user, shallowEqual);
+  
   useEffect(() => {
     console.log('date:', startDate)
   }, [startDate])
@@ -76,19 +82,24 @@ const Debts = () => {
     )
   }
   const addDebt = () => {
-    console.log(startDate)
-    let formattedDate = startDate.toISOString().split('T')[0];
-    const dateArr = formattedDate.split('-');
-    formattedDate = dateArr[1] + '-' + dateArr[2] + '-' + dateArr[0];
+    
+    let formattedStartDate = startDate.toISOString().split('T')[0];
+    let dateArr = formattedStartDate.split('-');
+    formattedStartDate = dateArr[1] + '-' + dateArr[2] + '-' + dateArr[0];
+    let formattedEndDate = startDate.toISOString().split('T')[0];
+    dateArr = formattedEndDate.split('-');
+    formattedEndDate = dateArr[1] + '-' + dateArr[2] + '-' + dateArr[0];
 
     const debt = {
+      debtId: uuid(),
       type: type.label,
-      startDate: formattedDate,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
       item,
       price,
       cycle: cycle.label,
       frequency: freq,
-      supplier: supplier.label,
+      supplier: supplier.value,
       account: account.label,
     }
     console.log('addDebt debt:', debt)
@@ -98,6 +109,7 @@ const Debts = () => {
       // data.push({type: 'util', item: 'firewood', price: 1410, cycle: 'mo', frequency: 1, date: "02/09/24"});
       console.log('addDebt data:', data)
       setTableData(data);
+      addDebtApi(debt);
     } else {
       caches.delete('Every field must have a value!')
     }
@@ -131,7 +143,7 @@ const Debts = () => {
               onChange={(option) => setCycle(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />       
               {false && <input className="debt-bar-element-cycle" placeholder='cycle' onChange={(e) => setCycle(e.target.value)} />}
-              <input className="debt-bar-element-freq" style={{ display: cycle.value === 'one-time' ? 'none' : 'flex' }} placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
+              <input className="debt-bar-element-freq" style={{ display: cycle && cycle.value === 'one-time' ? 'none' : 'flex' }} placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
               {false && <input className="debt-bar-element-supplier" placeholder='supplier' onChange={(e) => setSupplier(e.target.value)} />}
               <Select maxMenuHeight={150} 
               className=""
