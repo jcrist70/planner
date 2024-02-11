@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
+
 const User = require('../models/user.model');
 const DebtItem = require('../models/debtItem.model');
 
@@ -49,22 +52,46 @@ exports.getDebts = async (req, res) => {
         const user = await User.findOne({ email: req.email });
         if (user) {
             try {
-                const debtItems = await DebtItem.find({ user: user._id });
-                if (debtItems) {
-                    console.log('----> getDebts debtItems (debt.controller 53):', debtItems)
+                console.log('----> getDebts (debt.controller 52) user._id:', user._id)
+                // const debtItems = await DebtItem.find({ user: user._id });
+                // const debtItems = await DebtItem.find({ users: {
+                //     $elemMatch: {
+                //       _id: user._id
+                //     }
+                //   } });
+                //   const debtItems = await DebtItem.find({
+                //     users: {
+                //     $elemMatch: {
+                //     _id: "65c0150fdb7f315fe9b2797f"
+                //     }
+                // }
+                // })
+                // { 'users': mongoose.Types.ObjectId('65c0150fdb7f315fe9b2797f') }
+                // { users: mongoose.ObjectId("65c0150fdb7f315fe9b2797f") }
+                // const debtItems = await DebtItem.find({ 'users': mongoose.Types.ObjectId('65c0150fdb7f315fe9b2797f') }, function (err, results) { 
+                //     console.log(results); 
+                // });
+                // const debtItems = await DebtItem.find({ 'users': '65c0150fdb7f315fe9b2797f' });
+                let debtItems = await DebtItem.find().exec();
+                debtItems = debtItems.map((d) => {
+                    return d.users.includes(user._id) && d;
+                })
+                
+                if (debtItems.length > 0 && !debtItems.every(element => element === false)) {
+                    console.log('----> getDebts debtItems (debt.controller 61):', debtItems)
                     res.status(200).json(debtItems);
                 } else {
-                    console.log('----x getDebts  DebtItem.find (debt.controller 58) NO DEBTS for User:', user._id)
+                    console.log('----x getDebts  DebtItem.find (debt.controller 64) NO DEBTS for User:', user._id)
                     res.status(200).json({error: "NO DEBTS FOUND"})
                 }
 
             } catch (err) {
-                console.log('----x getDebts  DebtItem.find (debt.controller 58):', err)
+                console.log('----x getDebts  DebtItem.find (debt.controller 69):', err)
                 res.status(200).json({error: "dB access failed"})
             }
         }
     } catch (err) {
-        console.log('----x getDebts User.findOne (debt.controller 59):', err)
+        console.log('----x getDebts User.findOne (debt.controller 74):', err)
         res.status(200).json({error: "dB access failed"})
     }
         

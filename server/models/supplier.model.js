@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const supplierSchema = new mongoose.Schema(
   {
-    name: {
+    label: {
       type: String,
       required: true,
       index: true,

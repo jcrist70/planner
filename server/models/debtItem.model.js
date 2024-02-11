@@ -37,9 +37,9 @@ const debtItemSchema = new mongoose.Schema(
     account: {
         type: String,
     },
-    user: {
+    users: [{
         type: ObjectId, ref: 'User'
-      },
+      }],
   },
   { timestamps: true }
 );

@@ -12,8 +12,10 @@ import { getDebtsApi, addDebtApi } from '../apis/debt.api';
 
 const types = [
   {label: 'grocery', value: 'grocery'},
+  {label: 'household', value: 'household'},
   {label: 'dining', value: 'dining'},
   {label: 'gas', value: 'gas'},
+  {label: 'parking', value: 'parking'},
   {label: 'utility', value: 'util'},
   {label: 'clothing', value: 'clothing'},
   {label: 'gym', value: 'gym'},
@@ -35,17 +37,17 @@ const accounts = [
   {label: 'cc', value: 'cc'},
 ]
 let suppliers = [
-  {label: 'Amazon', value: 'amazon'},
+  {label: 'Amazon', value: '65c92a5790c8801d72a514f6'},
   {label: 'Market Basket', value: '65c9001790c8801d72a514ea'},
-  {label: 'Hannaford', value: 'hannaford'},
-  {label: 'COOP Hanover', value: 'coop-hanover'},
-  {label: 'COOP Concord', value: 'coop-concord'},
-  {label: 'COOP Littleton', value: 'coop-littleton'},
-  {label: 'NH Liquor', value: 'nh-liquor'},
-  {label: 'Ralph Lauren', value: 'ralph-lauren'},
-  {label: 'Target', value: 'target'},
-  {label: 'Wallmart', value: 'wallmart'},
-  {label: 'Other', value: 'other'},
+  {label: 'Hannaford', value: '65c92a1890c8801d72a514f5'},
+  {label: 'COOP Hanover', value: '65c92a6590c8801d72a514f7'},
+  {label: 'COOP Concord', value: '65c92a7890c8801d72a514f9'},
+  {label: 'COOP Littleton', value: '65c92a7090c8801d72a514f8'},
+  {label: 'NH Liquor', value: '65c92c1890c8801d72a514fc'},
+  {label: 'Ralph Lauren', value: '65c92a8c90c8801d72a514fb'},
+  {label: 'Target', value: '65c92c4290c8801d72a514fd'},
+  {label: 'Wallmart', value: '65c92a8290c8801d72a514fa'},
+  {label: 'Other', value: '65c92a0890c8801d72a514f4'},
 ]
 
 const Debts = () => {
