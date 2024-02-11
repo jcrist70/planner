@@ -1,39 +1,69 @@
 
-.debts-2r2c-14h11w {
+.debt-page-grid {
+    display: grid;
+    grid-template-rows: repeat(15, 5vh);
+    grid-template-columns: repeat(15, 7vw);
+    grid-row-gap: 3px;
+    grid-column-gap: 3px;
+    /* background-color: rgba(126, 255, 145, 0.4); */
+}
+
+.debt-page-header {
+    grid-row: 1/2;
+    grid-column: 2/13;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Menlo';
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 40px;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(149, 149, 149);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.debts-2r2c-14h13w {
     margin-left: 10px;
     grid-row: 2/16;
-    grid-column: 2/13;
+    grid-column: 1/14;
     background-color: rgba(214, 255, 173, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
-.debts-2r3c-2h11w {
+.debts-2r1c-2h13w {
     margin-left: 10px;
     grid-row: 2/4;
-    grid-column: 2/13;
+    grid-column: 1/14;
     background-color: rgba(255, 221, 169, 1);
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: Helvetica;
+    font-size: 16px;
     z-index: 2000;
 }
 
-.debts-4r3c-13h8w {
+.debts-4r1c-13h11w {
     margin-left: 10px;
     grid-row: 4/16;
-    grid-column: 2/10;
+    grid-column: 1/12;
     background-color: rgba(147, 107, 47, 0.4);
     display: flex;
     justify-content: center;
     align-items: top;
 }
-.debts-4r10c-13h3w {
+.debts-4r12c-13h2w {
     margin-left: 10px;
     grid-row: 4/16;
-    grid-column: 10/13;
+    grid-column: 12/14;
     background-color: rgba(211, 153, 67, 0.4);
     display: flex;
     justify-content: center;

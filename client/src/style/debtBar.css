@@ -13,7 +13,7 @@
     z-index: 2000;
  }
  .debt-bar-element-type {
-   height: 200px;
+   height: 34px;
    width: 150px;
    display: flex;
    justify-content: center;
@@ -26,39 +26,51 @@
    z-index: 2100;
 }
  .debt-bar-element-date {
-    height: 26px;
-    width: 65px;
+    height: 34px;
+    width: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
+    border-width: 1px;
+    border-color: lightgray;
     background-color: rgb(255, 255, 255);
+    font-family: 'Helvetica';
+    font-size: 16px;
  }
  .debt-bar-element-item {
-    height: 26px;
-    width: 180px;
+    height: 34px;
+    width: 160px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
+    border-width: 1px;
+    border-color: lightgray;
     background-color: rgb(255, 255, 255);
     overflow-x: scroll;
     overflow-y: hidden;
+    font-family: 'Helvetica';
+    font-size: 16px;
  }
  .debt-bar-element-price {
-   height: 26px;
+   height: 34px;
     width: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
+    border-width: 1px;
+    border-color: lightgray;
     background-color: rgb(255, 255, 255);
+    font-family: 'Helvetica';
+    font-size: 16px;
  }
  .debt-bar-element-cycle {
-   height: 26px;
+   height: 34px;
     width: 55px;
     display: flex;
     justify-content: center;
@@ -68,24 +80,32 @@
     background-color: rgb(255, 255, 255);
  }
  .debt-bar-element-freq {
-   height: 26px;
+   height: 34px;
     width: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
+    border-width: 1px;
+    border-color: lightgray;
     background-color: rgb(255, 255, 255);
+    font-family: 'Helvetica';
+    font-size: 16px;
  }
  .debt-bar-element-supplier {
-   height: 26px;
-    width: 160px;
+   height: 34px;
+    width: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     border-radius: 4px;
-    background-color: rgb(233, 233, 233);
+    border-width: 1px;
+    border-color: lightgray;
+    background-color: rgb(255, 255, 255);
+    font-family: 'Helvetica';
+    font-size: 16px;
  }
  .debt-bar-element-x {
    margin-left: 5px;
@@ -96,7 +116,7 @@
  }
  .debt-bar-element-add {
    margin-left: 5px;
-   height: 40px;
+   height: 34px;
    width: 60px;
    display: flex;
    justify-content: center;

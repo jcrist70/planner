@@ -3,35 +3,36 @@ const { ObjectId } = mongoose.Schema;
 
 const debtItemSchema = new mongoose.Schema(
   {
-    name: {
-        type: String,
-        required: true,
-        index: true,
-    },
+    
     type: {
-        type: String,
-    },
-    amount: {
-        type: Number,
-    },
-    account: {
-        type: String,
-    },
-    paymentMethod: {
         type: String,
     },
     date: {
         type: Date,
     },
-    reoccurring: {
-        type: Boolean,
+    item: {
+        type: String,
+        required: true,
+        index: true,
+    },
+    price: {
+        type: Number,
+    },
+    cycle: {
+        type: String,
     },
     frequency: {
+        type: Number,
+    },
+    supplier: {
         type: ObjectId,
     },
-    userData: {
-      type: ObjectId, ref: 'UserData'
+    account: {
+        type: String,
     },
+    userData: {
+        type: ObjectId, ref: 'UserData'
+      },
   },
   { timestamps: true }
 );

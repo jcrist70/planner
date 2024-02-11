@@ -46,7 +46,7 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
         header: 'Type',
         accessorKey: 'type',
         enableGrouping: true,
-        size: 100,
+        size: 80,
       },
       {
         header: 'Item',
@@ -69,13 +69,19 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
         header: 'Frequency',
         accessorKey: 'frequency',
         enableGrouping: true,
-        size: 100,
+        size: 135,
       },
       {
         header: 'Supplier',
         accessorKey: 'supplier',
         enableGrouping: true,
-        size: 100,
+        size: 120,
+      },
+      {
+        header: 'Account',
+        accessorKey: 'account',
+        enableGrouping: true,
+        size: 120,
       },
       // {
       //   header: 'Complete',
@@ -117,7 +123,7 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
       // mantineTableContainerProps: { sx: { height: '80%' } },
       mantineTableContainerProps: {
         ref: tableContainerRef, //get access to the table container element
-        sx: { maxHeight: "80%" }, //give the table a max height
+        sx: { maxHeight: "100%", tableLayout: 'fixed' }, //give the table a max height
         // onScroll: (
         //   event//add an event listener to the table container element
         // ) => fetchMoreOnBottomReached(event.target),
@@ -136,6 +142,15 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
   
     return (<MantineReactTable 
       table={table}
+      displayColumnDefOptions={{
+        'mrt-row-numbers': {
+          size: 10,
+        },
+        'mrt-row-expand': {
+          size: 10,
+        },
+      }}
+      
       // columns={columns} data={[]}
       // onColumnPinningChange={setColumnPinning}
       // state={{ columnPinning }} 
