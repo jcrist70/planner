@@ -72,10 +72,11 @@ exports.getDebts = async (req, res) => {
                 //     console.log(results); 
                 // });
                 // const debtItems = await DebtItem.find({ 'users': '65c0150fdb7f315fe9b2797f' });
-                let debtItems = await DebtItem.find().exec();
-                debtItems = debtItems.map((d) => {
-                    return d.users.includes(user._id) && d;
-                })
+                // let debtItems = await DebtItem.find().exec();
+                // debtItems = debtItems.map((d) => {
+                //     return d.users.includes(user._id) && d;
+                // })
+                const debtItems = await DebtItem.find( { "users": new mongoose.Types.ObjectId("65c0150fdb7f315fe9b2797f") } ).exec();
                 
                 if (debtItems.length > 0 && !debtItems.every(element => element === false)) {
                     console.log('----> getDebts debtItems (debt.controller 61):', debtItems)

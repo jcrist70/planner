@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema(
     userData: {
       type: ObjectId, ref: 'UserData'
     },
+    family: {
+      type: ObjectId, ref: 'Family'
+    },
     emailVerified: {
       type: Boolean,
     },

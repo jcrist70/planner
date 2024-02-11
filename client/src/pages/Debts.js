@@ -9,6 +9,7 @@ import TableBasic from '../components/TableBasic';
 import DebtBar from '../components/DebtBar';
 // APIS
 import { getDebtsApi, addDebtApi } from '../apis/debt.api';
+import { getFamilyApi } from '../apis/family.api';
 
 const types = [
   {label: 'grocery', value: 'grocery'},
@@ -66,7 +67,8 @@ const Debts = () => {
   const { email } = useSelector((state) => state.user, shallowEqual);
   
   useEffect(() => {
-    getDebts();
+    // getDebts();
+    getFamily();
   }, [])
 
   useEffect(() => {
@@ -81,11 +83,11 @@ const Debts = () => {
     }
   }, [cycle])
 
-  const getDebts = async () => {
-    const dbDebts = await getDebtsApi();
-    console.log('dbDebts:', dbDebts.data)
-    if (dbDebts.data !== "") {
-      setTableData(dbDebts.data);
+  const getFamily = async () => {
+    const dbFamily = await getFamilyApi();
+    console.log('dbFamily:', dbFamily.data.debtItems)
+    if (dbFamily.data.debtItems.length > 0) {
+      setTableData(dbFamily.data.debtItems);
     }
   }
 
