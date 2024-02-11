@@ -8,43 +8,47 @@ const userDataSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    // store family name iff family data
+    isFamilyData: {
+      type: String,
+    },
     lastUpdated: {
       type: Date,
     },
-    year: {
+    years: [{
       type: String,
-    },
-    month: {
+    }],
+    months: [{
       type: String,
-    },
-    weeks: [
-      {type: String}
-    ],
-    users: [
-      {type: ObjectId, ref: 'User'}
-    ],
+    }],
+    weeks: [{
+      type: String
+    }],
+    users: [{
+      type: ObjectId, ref: 'User'
+    }],
     summary: {
       type: ObjectId, ref: 'Summary'
     },
-    credits: {
-      type: ObjectId, ref: 'Credits'
-    },
-    debits: {
-      type: ObjectId, ref: 'Debits'
-    },
-    investments: {
-      type: ObjectId, ref: 'Investments'
-    },
-    totalCredits: {
+    credits: [{
+      type: ObjectId, ref: 'CreditItem'
+    }],
+    debts: [{
+      type: ObjectId, ref: 'DebtItem'
+    }],
+    investments: [{
+      type: ObjectId, ref: 'InvestmentItem'
+    }],
+    totalCredit: {
       type: Number,
     },
-    totalDebits: {
+    totalDebit: {
       type: Number,
     }, 
-    totalInvestments: {
+    totalInvestment: {
       type: Number,
     },
-    totalCreditCards: {
+    totalCreditCard: {
       type: Number,
     },
     createdOn: {

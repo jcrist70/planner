@@ -10,6 +10,9 @@ const Summary = () => {
     const [ creditCardMonthlyArray, setCreditCardMonthlyArray ] = useState([{label: "BoA1", value: 373, interest: 16}, {label: "BoA2", value: 100, interest: 0}, {label: "Citi", value: 82, interest: 0}, {label: "Discover", value: 136, interest: 0}])
     
     const [ rent, setRent ] = useState(3500);
+    // Cadillac
+    const [ carPayment, setCarPayment ] = useState(448.35);
+    const [ carLoan, setCarLoan ] = useState(24720);
     // elec, verizon, storage, oil
     const [ utilities, setUtilities ] = useState(241+283+75+0);
     const [ utilitiesArray, setUtilitiesArray ] = useState([{label: "electric", value: 241}, {label: "verizon", value: 283}, {label: "storage", value: 75}, {label: "oil", value: 0}])
@@ -23,10 +26,10 @@ const Summary = () => {
     // grocery, autoGass, resturant, clothing, gym
     const [ living, setLiving ] = useState(936+252+840+458+135);
     const [ livingArray, setLivingArray ] = useState([{label: "grocery", value: 936}, {label: "autoGas", value: 252}, {label: "resturant", value: 840}, {label: "clothing", value: 458}, {label: "gym", value: 135}]);
-    const [ debtArray, setDebtArray ] = useState([{label: "creditCardsMonthly", value: creditCardsMonthly}, {label: "rent", value: rent}, {label: "utilities", value: utilities}, {label: "insurance", value: insurance}, {label: "subscriptions", value: subscriptions}, {label: "tuition", value: tuition}, {label: "living", value: living}]);
+    const [ debtArray, setDebtArray ] = useState([{label: "carPayment", value: carPayment}, {label: "creditCardsMonthly", value: creditCardsMonthly}, {label: "rent", value: rent}, {label: "utilities", value: utilities}, {label: "insurance", value: insurance}, {label: "subscriptions", value: subscriptions}, {label: "tuition", value: tuition}, {label: "living", value: living}]);
     const [ sumDebtArray, setSumDebtArray ] = useState(0);
-    // J, S
-    const [ income, setIncome ] = useState(10167+4432);
+    // J, S, Scar
+    const [ income, setIncome ] = useState(10167+4432+476);
     const [ checking, setChecking ] =  useState(8681);
     const [ savings, setSavings ] =  useState(19543);
     // Sarah, Jason
@@ -44,10 +47,13 @@ const Summary = () => {
         setCreditsArray(sortedArr);
     }, [checking, savings, income]);
     useEffect(() => {
-        setTotalDebt(creditCards+rent+utilities+insurance+subscriptions+tuition+living);
+        // Total Debt Monthly
+        setTotalDebt(carLoan+creditCards+rent+utilities+insurance+subscriptions+tuition+living);
+        
         let sortedArr = debtArray.sort((a, b) => {return b.value-a.value})
         console.log('debt sortedArr:', sortedArr)
         setDebtArray(sortedArr);
+
         const sum = debtArray.map(item => item.value).reduce((prev, next) => prev + next);
         setSumDebtArray(sum);
         sortedArr = subscriptionArray && subscriptionArray.sort((a, b) => {return b.value-a.value})

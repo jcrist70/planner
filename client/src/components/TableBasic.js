@@ -37,10 +37,10 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
 
     const columns = useMemo(() => [
       {
-        header: 'Date',
-        accessorKey: 'date',
+        header: 'Start Date',
+        accessorKey: 'startDate',
         enableGrouping: true,
-        size: 100,
+        size: 135,
       },
       {
         header: 'Type',

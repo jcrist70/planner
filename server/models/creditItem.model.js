@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
-const debtItemSchema = new mongoose.Schema(
+const creditItemSchema = new mongoose.Schema(
   {
     type: {
         type: String,
     },
-    startDate: {
-        type: Date,
-    },
-    endDate: {
+    date: {
         type: Date,
     },
     item: {
@@ -17,7 +14,7 @@ const debtItemSchema = new mongoose.Schema(
         required: true,
         index: true,
     },
-    price: {
+    amount: {
         type: Number,
     },
     cycle: {
@@ -26,8 +23,8 @@ const debtItemSchema = new mongoose.Schema(
     frequency: {
         type: Number,
     },
-    supplier: {
-        type: ObjectId, ref: 'Supplier',
+    source: {
+        type: ObjectId, ref: 'Source',
     },
     account: {
         type: String,
@@ -39,4 +36,4 @@ const debtItemSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("DebtItem", debtItemSchema);
+module.exports = mongoose.model("CreditItem", creditItemSchema);

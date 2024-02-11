@@ -46,18 +46,19 @@ let suppliers = [
 
 const Debts = () => {
   const [ type, setType ] = useState(null);
-  const [ date, setDate ] = useState(new Date());
+  const [ startDate, setStartDate ] = useState(new Date());
+  const [ endDate, setEndDate ] = useState(new Date());
   const [ item, setItem ] = useState(null);
   const [ price, setPrice ] = useState(null);
   const [ cycle, setCycle ] = useState(null);
   const [ freq, setFreq ] = useState(null);
   const [ supplier, setSupplier ] = useState('default');
   const [ account, setAccount ] = useState(null);
-  const [ tableData, setTableData ] = useState([{type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, date: "02/09/24"}])
+  const [ tableData, setTableData ] = useState([{type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, startDate: "02/09/24"}])
     
   useEffect(() => {
-    console.log('date:', date)
-  }, [date])
+    console.log('date:', startDate)
+  }, [startDate])
   const DebtForm = () => {
     return (
       <div>
@@ -66,19 +67,20 @@ const Debts = () => {
     )
   }
   const addDebt = () => {
-    console.log(date)
-    let formattedDate = date.toISOString().split('T')[0];
+    console.log(startDate)
+    let formattedDate = startDate.toISOString().split('T')[0];
     const dateArr = formattedDate.split('-');
     formattedDate = dateArr[1] + '-' + dateArr[2] + '-' + dateArr[0];
 
     const debt = {
       type: type.label,
-      date: formattedDate,
+      startDate: formattedDate,
       item,
       price,
       cycle: cycle.label,
       frequency: freq,
-      supplier
+      supplier: supplier.label,
+      account: account.label,
     }
     console.log('addDebt debt:', debt)
     if (!Object.values(debt).includes(null)) {
@@ -108,7 +110,7 @@ const Debts = () => {
               options={types} 
               onChange={(option) => setType(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <DatePicker className="debt-bar-element-date" selected={date} onChange={(date) => setDate(date)} />
+              <DatePicker className="debt-bar-element-date" selected={startDate} onChange={(date) => setStartDate(date)} />
               <input className="debt-bar-element-item" placeholder='item' onChange={(e) => setItem(e.target.value)} />
               <input className="debt-bar-element-price" placeholder='price' onChange={(e) => setPrice(e.target.value)} />   
               <Select maxMenuHeight={150} 
@@ -143,7 +145,6 @@ const Debts = () => {
             </div>
             <div className='debts-4r12c-13h2w'>
             {false && <DebtBar addDebt={addDebt} />}
-            {JSON.stringify(date)}
             </div>
 
           </div>
