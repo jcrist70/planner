@@ -8,7 +8,7 @@ import { v4 as uuid }from 'uuid';
 import TableBasic from '../components/TableBasic';
 import DebtBar from '../components/DebtBar';
 // APIS
-import { addDebtApi } from '../apis/debt.api';
+import { getDebtsApi, addDebtApi } from '../apis/debt.api';
 
 const types = [
   {label: 'grocery', value: 'grocery'},
@@ -64,8 +64,13 @@ const Debts = () => {
   const { email } = useSelector((state) => state.user, shallowEqual);
   
   useEffect(() => {
+    getDebts();
+  }, [])
+
+  useEffect(() => {
     console.log('date:', startDate)
   }, [startDate])
+
   useEffect(() => {
     console.log('cycle:', cycle)
     if (cycle && cycle.value === 'one-time') {
@@ -73,6 +78,14 @@ const Debts = () => {
       setFreq(1);
     }
   }, [cycle])
+
+  const getDebts = async () => {
+    const dbDebts = await getDebtsApi();
+    console.log('dbDebts:', dbDebts.data)
+    if (dbDebts.data !== "") {
+      setTableData(dbDebts.data);
+    }
+  }
 
   const DebtForm = () => {
     return (
@@ -103,6 +116,7 @@ const Debts = () => {
       account: account.label,
     }
     console.log('addDebt debt:', debt)
+    console.log('addDebt tableData:', tableData)
     if (!Object.values(debt).includes(null)) {
       const data = [...tableData];
       data.push(debt);

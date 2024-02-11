@@ -33,7 +33,7 @@ const TableBasic = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
     //   }
     //   data[i].userScore = userScoreStr;
     // });
-    console.log('###################> NegNameTraineeScoreTable DATA:', data);
+    console.log('###################> DATA:', data);
 
     const columns = useMemo(() => [
       {

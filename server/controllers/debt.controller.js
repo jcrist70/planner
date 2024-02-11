@@ -11,6 +11,7 @@ exports.addDebt = async (req,res) => {
     let debtItem = null;
     try {
         dbUser = await User.findOne({ email });
+        debt.user = dbUser._id;
         // console.log('----> addDebt (debt.controller 12) dbUser:', dbUser)
         if (dbUser) {
             // first try findOneAndUpdate
@@ -40,5 +41,31 @@ exports.addDebt = async (req,res) => {
         res.status(200).json({error: "dB access failed"})
     }
 
+}
+
+exports.getDebts = async (req, res) => {
     
+    try {
+        const user = await User.findOne({ email: req.email });
+        if (user) {
+            try {
+                const debtItems = await DebtItem.find({ user: user._id });
+                if (debtItems) {
+                    console.log('----> getDebts debtItems (debt.controller 53):', debtItems)
+                    res.status(200).json(debtItems);
+                } else {
+                    console.log('----x getDebts  DebtItem.find (debt.controller 58) NO DEBTS for User:', user._id)
+                    res.status(200).json({error: "NO DEBTS FOUND"})
+                }
+
+            } catch (err) {
+                console.log('----x getDebts  DebtItem.find (debt.controller 58):', err)
+                res.status(200).json({error: "dB access failed"})
+            }
+        }
+    } catch (err) {
+        console.log('----x getDebts User.findOne (debt.controller 59):', err)
+        res.status(200).json({error: "dB access failed"})
+    }
+        
 }
