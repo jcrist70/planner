@@ -25,7 +25,7 @@
    /* overflow-y: hidden; */
    z-index: 2100;
 }
- .debt-bar-element-date {
+ .debt-bar-element-start-date {
     height: 34px;
     width: 80px;
     display: flex;
@@ -39,6 +39,20 @@
     font-family: 'Helvetica';
     font-size: 16px;
  }
+ .debt-bar-element-end-date {
+   height: 34px;
+   width: 80px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   border-radius: 4px;
+   border-width: 1px;
+   border-color: lightgray;
+   background-color: rgb(255, 255, 255);
+   font-family: 'Helvetica';
+   font-size: 16px;
+}
  .debt-bar-element-item {
     height: 34px;
     width: 160px;

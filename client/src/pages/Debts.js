@@ -54,11 +54,20 @@ const Debts = () => {
   const [ freq, setFreq ] = useState(null);
   const [ supplier, setSupplier ] = useState('default');
   const [ account, setAccount ] = useState(null);
-  const [ tableData, setTableData ] = useState([{type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, startDate: "02/09/24"}])
-    
+  const [ tableData, setTableData ] = useState([]);
+  // {type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, startDate: "02/09/24"}
+
   useEffect(() => {
     console.log('date:', startDate)
   }, [startDate])
+  useEffect(() => {
+    console.log('cycle:', cycle)
+    if (cycle && cycle.value === 'one-time') {
+      console.log('setFreq 1')
+      setFreq(1);
+    }
+  }, [cycle])
+
   const DebtForm = () => {
     return (
       <div>
@@ -110,7 +119,8 @@ const Debts = () => {
               options={types} 
               onChange={(option) => setType(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <DatePicker className="debt-bar-element-date" selected={startDate} onChange={(date) => setStartDate(date)} />
+              <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
+              <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
               <input className="debt-bar-element-item" placeholder='item' onChange={(e) => setItem(e.target.value)} />
               <input className="debt-bar-element-price" placeholder='price' onChange={(e) => setPrice(e.target.value)} />   
               <Select maxMenuHeight={150} 
@@ -121,7 +131,7 @@ const Debts = () => {
               onChange={(option) => setCycle(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />       
               {false && <input className="debt-bar-element-cycle" placeholder='cycle' onChange={(e) => setCycle(e.target.value)} />}
-              <input className="debt-bar-element-freq" placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
+              <input className="debt-bar-element-freq" style={{ display: cycle.value === 'one-time' ? 'none' : 'flex' }} placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
               {false && <input className="debt-bar-element-supplier" placeholder='supplier' onChange={(e) => setSupplier(e.target.value)} />}
               <Select maxMenuHeight={150} 
               className=""
