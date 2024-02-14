@@ -86,7 +86,7 @@ const Debts = () => {
   const getFamily = async () => {
     const dbFamily = await getFamilyApi();
     console.log('dbFamily:', dbFamily.data.debtItems)
-    if (dbFamily.data.debtItems.length > 0) {
+    if (dbFamily && dbFamily.data.debtItems.length > 0) {
       setTableData(dbFamily.data.debtItems);
     }
   }

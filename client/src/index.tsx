@@ -10,6 +10,7 @@ import './style/debts.css';
 import './style/debtBar.css';
 import './style/summary.css';
 import './style/login.css';
+import './style/account.css';
 import App from './App';
 
 import store from './redux/store';

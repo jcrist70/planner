@@ -11,6 +11,7 @@ import Debts from './pages/Debts';
 import Summary from './pages/Summary'
 import GridTemplate from './pages/GridTemplate';
 import Home from './pages/Home';
+import Accounts from './pages/Accounts';
 // API
 import { verifyUser } from './apis/user.api';
 // REDUX 
@@ -72,6 +73,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
+          <Route path='/accounts' element={<Accounts />} />
           <Route path='/debts' element={<Debts />} />
           <Route path='/summary' element={<Summary />} />
           <Route path='/grid' element={<GridTemplate />} />

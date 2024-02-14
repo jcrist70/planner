@@ -1,0 +1,25 @@
+
+.account-bar-element-add-account {
+    margin-left: 5px;
+    height: 34px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: rgb(179, 255, 190);
+    border-radius: 4px;
+}
+.account-bar-element-add-holder {
+    margin-left: 5px;
+    height: 34px;
+    width: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: rgb(179, 255, 190);
+    border-radius: 4px;
+}
