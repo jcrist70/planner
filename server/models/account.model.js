@@ -11,7 +11,7 @@ const accountSchema = new mongoose.Schema(
     type: {
         type: String,
     },
-    institutuion: {
+    institution: {
         type: Object,
     },
     ballance: {

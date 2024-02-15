@@ -23,7 +23,7 @@ const Summary = () => {
     const [ subscriptionArray, setSubscriptionArray ] = useState([{label: "netflix", value: 16}, {label: "satRadio", value: 8}, {label: "googleWorkspace", value: 6}, {label: "googleCloud", value: 14}, {label: "AWS", value: 24}, {label: "digitalOcean", value: 15}, {label: "chatGPT", value: 0}, {label: "AmazonPrime", value: 12}])
     // 
     const [ tuition, setTuition ] = useState(1954);
-    // grocery, autoGass, resturant, clothing, gym
+    // grocery, autoGas, resturant, clothing, gym
     const [ living, setLiving ] = useState(936+252+840+458+135);
     const [ livingArray, setLivingArray ] = useState([{label: "grocery", value: 936}, {label: "autoGas", value: 252}, {label: "resturant", value: 840}, {label: "clothing", value: 458}, {label: "gym", value: 135}]);
     const [ debtArray, setDebtArray ] = useState([{label: "carPayment", value: carPayment}, {label: "creditCardsMonthly", value: creditCardsMonthly}, {label: "rent", value: rent}, {label: "utilities", value: utilities}, {label: "insurance", value: insurance}, {label: "subscriptions", value: subscriptions}, {label: "tuition", value: tuition}, {label: "living", value: living}]);

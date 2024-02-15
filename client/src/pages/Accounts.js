@@ -4,6 +4,8 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid }from 'uuid';
+import Modal from 'react-modal';
+
 
 import TableAccounts from '../components/TableAccounts'
 // APIS
@@ -17,6 +19,18 @@ const types = [
   {label: 'investment', value: 'investment'},
 ]
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  overlay: {zIndex: 5000}
+};
+
 const Accounts = () => {
   const [ accounts, setAccounts ] = useState([]);
   const [ type, setType ] = useState(null);
@@ -26,6 +40,7 @@ const Accounts = () => {
   const [ targets, setTargets] = useState([]);
   const [ holders, setHolders] = useState([]);
   const [ tableData, setTableData ] = useState([]);
+  const [ newHolder, setNewHolder ] = useState('');
   
   const { email } = useSelector((state) => state.user, shallowEqual);
   
@@ -84,9 +99,63 @@ const Accounts = () => {
 
   }
 
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpenNewChapter, setIsOpenNewChapter] = useState(false);
+  function openModal() {
+          setIsOpen(true);
+        }
+  function openModalNewChapter() {
+        setIsOpenNewChapter(true);
+    }
+  function afterOpenModal() {
+          // references are now sync'd and can be accessed.
+          subtitle.style.color = '#f00';
+        }
+    async function closeModal() {
+          setIsOpen(false);
+          console.log('--> closeModal newHolder:', newHolder)
+          // let newModule = {
+          //   label: newModuleType.label + ": " + newModuleName,
+          //   index: sortedModuleArr.length,
+          //   visible: true,
+          //   moduleType: newModuleType.label,
+          //   value: null,
+          // }
+          // let newDbModule = null;
+          // console.log("newModuleType:", newModuleType)
+          
+          // let update  = [...sortedModuleArr, newDbModule];
+          // setSortedModuleArr(update);
+          // const response = await updateModuleApi(idToken, db, newDbModule);
+          // console.log("**response:", response.data)
+          // newDbModule._id = response.data._id;
+          // newDbModule.value = response.data._id;
+          // console.log("**newDbModule:", newDbModule)
+    }
+
+    async function abortModal() {
+        setIsOpen(false);
+    }
+
   return (
       <div className='app-planner-section'>
         <div className='app-planner-container'>
+          <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Create Module"
+                ariaHideApp={false}
+            >
+                <h2 style={{ color: 'black' }} ref={(_subtitle) => (subtitle = _subtitle)}>Add Holder:</h2>
+                
+                <input type='text' placeholder='enter holder name' style={{ paddingLeft: '5px', margin: '3px',height: '35px', width: '250px' }} onChange={(e) => setNewHolder(e.target.value)}/>
+                <br/><button style={{ margin: '3px', marginLeft: '25%', height: '35px', width: '120px' }} onClick={closeModal}>Done</button>
+                <button style={{ margin: '3px', marginLeft: '25%', height: '35px', width: '120px' }} onClick={abortModal}>Cancle</button>
+                
+            </Modal>
           <div className='debt-page-grid'>
             <div className='debt-page-header'>Accounts</div>
             <div className='debts-2r1c-2h13w'>
@@ -99,12 +168,10 @@ const Accounts = () => {
               onChange={(option) => setType(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} /> 
 
-              <input className="debt-bar-element-item" placeholder='institutuion' onChange={(e) => setInstitutuion(e.target.value)} />
-              <input className="debt-bar-element-price" placeholder='ballance' onChange={(e) => setBallance(e.target.value)} />   
-              
-              
-              <div className="account-bar-element-add-holder" style={{ color: "green" }} onClick={addHolder}>Add Holder</div>  
-            
+              <input className="account-bar-element-item" placeholder='institutuion' onChange={(e) => setInstitutuion(e.target.value)} />
+              <input className="account-bar-element-ballance " placeholder='ballance' onChange={(e) => setBallance(e.target.value)} />   
+               
+              <div className="account-bar-element-add-holder" style={{ color: "green" }} onClick={openModal}>Add Holder</div>  
               <div className="account-bar-element-add-account" style={{ color: "green" }} onClick={addAccount}>Add</div>  
             
             </div>
