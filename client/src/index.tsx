@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+import './style/color.css';
 import './style/index.css';
 import './style/app.css';
 import './style/grid.css';

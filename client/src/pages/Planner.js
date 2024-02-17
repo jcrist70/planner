@@ -11,6 +11,16 @@ import DebtBar from '../components/DebtBar';
 import { getDebtsApi, addDebtApi } from '../apis/debt.api';
 import { getFamilyApi } from '../apis/family.api';
 
+const periods = [
+  {label: 'Day', value: 'day'},
+  {label: 'Week', value: 'week'},
+  {label: 'Month', value: 'month'},
+  {label: 'Semi-Annual', value: 'half-year'},
+  {label: 'Two Year', value: 'two-year'},
+  {label: 'Five Year', value: 'five-year'},
+  {label: 'Decade', value: 'decade'},
+  {label: 'All Time', value: 'all'},
+]
 const types = [
   {label: 'grocery', value: 'grocery'},
   {label: 'household', value: 'household'},
@@ -52,6 +62,9 @@ let suppliers = [
 ]
 
 const Debts = () => {
+
+  const [ period, setPeriod ] = useState(null);
+  
   const [ type, setType ] = useState(null);
   const [ startDate, setStartDate ] = useState(new Date());
   const [ endDate, setEndDate ] = useState(new Date());
@@ -138,47 +151,20 @@ const Debts = () => {
       <div className='app-debt-section'>
         <div className='app-debt-container'>
           <div className='debt-page-grid'>
-            <div className='debt-page-header color-0p5-gry-1'>Debts</div>
+            <div className='debt-page-header color-0p5-gry-1'>Planner</div>
             <div className='grid-2r1c-2h13w color-1-orn-1'>
 
               {false && <DebtBar addDebt={addDebt} />}
               <Select maxMenuHeight={150} 
               className=""
-              placeholder='select type'
-              value={type} 
-              options={types} 
-              onChange={(option) => setType(option)} 
+              placeholder='select period'
+              value={period} 
+              options={periods} 
+              onChange={(option) => setPeriod(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
-              <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
-              <input className="debt-bar-element-item" placeholder='item' onChange={(e) => setItem(e.target.value)} />
-              <input className="debt-bar-element-price" placeholder='price' onChange={(e) => setPrice(e.target.value)} />   
-              <Select maxMenuHeight={150} 
-              className=""
-              placeholder='select cycle'
-              value={cycle} 
-              options={cycles} 
-              onChange={(option) => setCycle(option)} 
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />       
-              {false && <input className="debt-bar-element-cycle" placeholder='cycle' onChange={(e) => setCycle(e.target.value)} />}
-              <input className="debt-bar-element-freq" style={{ display: cycle && cycle.value === 'one-time' ? 'none' : 'flex' }} placeholder='freq' onChange={(e) => setFreq(e.target.value)} />
-              {false && <input className="debt-bar-element-supplier" placeholder='supplier' onChange={(e) => setSupplier(e.target.value)} />}
-              <Select maxMenuHeight={150} 
-              className=""
-              placeholder='select supplier'
-              value={supplier} 
-              options={suppliers} 
-              onChange={(option) => setSupplier(option)} 
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <Select maxMenuHeight={150} 
-              className=""
-              placeholder='select account'
-              value={account} 
-              options={accounts} 
-              onChange={(option) => setAccount(option)} 
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <div className="debt-bar-element-add" style={{ color: "green" }} onClick={addDebt}>Add</div>  
-            
+              Starting: <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
+              Ending: <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
+              
             </div>
             <div className='grid-4r1c-13h11w'>
               <TableDebts data={tableData} />

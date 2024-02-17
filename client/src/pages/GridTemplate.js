@@ -2,11 +2,11 @@ import React from 'react';
 
 const GridTemplate = () => {
     return (
-        <div className='app-planner-section'>
-        <div className='app-planner-container'>
-          <div className='app-planner-grid'>
+        <div className='app-grid-template-section'>
+        <div className='app-grid-template-container'>
+          <div className='app-grid-template-grid'>
           
-            <div className='app-planner-header'>Planner Grid</div>
+            <div className='app-grid-template-header'>Planner Grid</div>
             <div className='grid-2r1c-1h1w'></div>
             <div className='grid-2r2c-1h1w'></div>
             <div className='grid-3r2c-1h1w'></div>

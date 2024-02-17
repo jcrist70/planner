@@ -166,8 +166,8 @@ const Accounts = () => {
                 
             </Modal>
           <div className='accounts-page-grid'>
-            <div className='accounts-page-header'>Accounts</div>
-            <div className='debts-2r1c-2h13w'>
+            <div className='accounts-page-header color-0p5-gry-1'>Accounts</div>
+            <div className='grid-2r1c-2h13w color-1-orn-1'>
 
               <Select maxMenuHeight={150} 
               className=""
@@ -184,10 +184,10 @@ const Accounts = () => {
               <div className="account-bar-element-add-account" style={{ color: "green" }} onClick={addAccount}>Add</div>  
             
             </div>
-            <div className='debts-4r1c-13h11w'>
+            <div className='grid-4r1c-13h11w'>
               <TableAccounts data={accounts} />
             </div>
-            <div className='debts-4r12c-13h2w'>
+            <div className='grid-4r12c-13h2w color-0p4-orn-3'>
             </div>
 
           </div>

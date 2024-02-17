@@ -19,6 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 60vw;
 }
 .nav-bar-sec-lft {
     display: flex;

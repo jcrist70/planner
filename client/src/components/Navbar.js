@@ -50,8 +50,14 @@ const Navbar = () => {
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/credits')}>
                 Credits
                 </div>}
+                {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/investments')}>
+                Investments
+                </div>}
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/debts')}>
                 Debits
+                </div>}
+                {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/loans')}>
+                Loans
                 </div>}
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/summary')}>
                 Summary
