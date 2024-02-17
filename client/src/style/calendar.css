@@ -19,8 +19,7 @@
 }
 
 
-.calendar__days div,
-.calendar__dates div {
+.calendar__days div {
     height: 20px;
     width: auto;
     justify-content: center;

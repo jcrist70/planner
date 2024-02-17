@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     setInterval(() => {
       refreshToken();
-    }, 5000);
+    }, 4 * 60 * 1000);
     if (!loggedIn) {
       console.log('NOT LOGGED IN')
       dispatch(setContext('login'));
