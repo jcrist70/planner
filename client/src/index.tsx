@@ -7,6 +7,7 @@ import './style/index.css';
 import './style/app.css';
 import './style/grid.css';
 import './style/nav.css';
+import './style/ballances.css';
 import './style/planner.css';
 import './style/debts.css';
 import './style/debtBar.css';
@@ -14,6 +15,7 @@ import './style/summary.css';
 import './style/login.css';
 import './style/account.css';
 import './style/accountBar.css';
+import './style/calendar.css';
 import App from './App';
 
 import store from './redux/store';

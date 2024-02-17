@@ -4,12 +4,10 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid }from 'uuid';
+import Calendar from 'react-calendar';
 
-
-// COMPONENTS
 import TableDebts from '../components/TableDebts';
 import DebtBar from '../components/DebtBar';
-import Calendar from '../components/Calendar2';
 // APIS
 import { getDebtsApi, addDebtApi } from '../apis/debt.api';
 import { getFamilyApi } from '../apis/family.api';
@@ -64,9 +62,7 @@ let suppliers = [
   {label: 'Other', value: '65c92a0890c8801d72a514f4'},
 ]
 
-const Planner = () => {
-  const calendarComponentRef = React.createRef();
-
+const Ballances = () => {
   const [value, setValue] = useState(new Date());
   const [ period, setPeriod ] = useState(null);
   
@@ -84,43 +80,6 @@ const Planner = () => {
 
   const { email } = useSelector((state) => state.user, shallowEqual);
   
-  const [state, setState ] = useState({
-    events: [
-      { id: 1, title: "event 1", date: "2019-12-01" },
-      {
-        title: "event 2",
-        start: "2019-12-01",
-        end: "2019-12-05",
-        allDay: true,
-        HostName: "William"
-      },
-      {
-        title: "event 3",
-        start: "2019-12-05",
-        end: "2019-12-07",
-        allDay: true
-      },
-      {
-        title: "event 4",
-        start: "2019-12-05",
-        end: "2019-12-07",
-        allDay: true
-      },
-      {
-        title: "event 5",
-        start: "2019-12-05",
-        end: "2019-12-07",
-        allDay: true
-      },
-      {
-        title: "event 6",
-        start: "2019-12-05",
-        end: "2019-12-07",
-        allDay: true
-      }
-    ]
-  });
-
   useEffect(() => {
     // getDebts();
     getFamily();
@@ -190,75 +149,14 @@ const Planner = () => {
   }
 
   function onChange(nextValue) {
-    console.log('Calendar value:', value)
     setValue(nextValue);
   }
-  
-  // const datesToAddClassTo = [tomorrow, in3Days, in5Days];
-
-  // function tileClassName({ date, view }) {
-  //   // Add class to tiles in month view only
-  //   if (view === 'month') {
-  //     // Check if a date React-Calendar wants to check is on the list of dates to add class to
-  //     if (datesToAddClassTo.find(dDate => isSameDay(dDate, date))) {
-  //       return 'myClassName';
-  //     }
-  //   }
-  // }
-  // const datesToAddContentTo = [tomorrow, in3Days, in5Days];
-
-  function tileContent({ date, view }) {
-    console.log('tileContent selected date:', date)
-    // Add class to tiles in month view only
-    if (view === 'month') {
-      // Check if a date React-Calendar wants to check is on the list of dates to add class to
-      // if (datesToAddContentTo.find(dDate => isSameDay(dDate, date))) {
-      //   return 'My content';
-      // }
-      // date && date.forEach((d) => {
-      //   if  (date === value) {
-      //     return 'My content';
-      //   }
-      // })
-      
-      
-    }
-  }
-
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    )
-  }
-  const handleDateClick = (arg) => {
-    alert(arg.dateStr);
-  };
-  const handleSelectedDates = (info) => {
-    alert("selected " + info.startStr + " to " + info.endStr);
-    const title = prompt("What's the name of the title");
-    console.log(info);
-    if (title != null) {
-      const newEvent = {
-        title,
-        start: info.startStr,
-        end: info.endStr
-      };
-      const data = [...state.events, newEvent];
-      setState({ events: data });
-      console.log("here", data);
-    } else {
-      console.log("nothing");
-    }
-  };
 
   return (
       <div className='app-debt-section'>
         <div className='app-debt-container'>
           <div className='debt-page-grid'>
-            <div className='debt-page-header color-0p5-gry-1'>Planner</div>
+            <div className='debt-page-header color-0p5-gry-1'>Ballances</div>
             <div className='grid-2r1c-2h13w color-1-orn-1'>
 
               {false && <DebtBar addDebt={addDebt} />}
@@ -275,7 +173,10 @@ const Planner = () => {
             </div>
             <div className='grid-4r1c-13h11w'>
               {false && <TableDebts data={tableData} />}
-              <Calendar />
+              <Calendar
+                onChange={onChange}
+                value={value}
+              />
             </div>
             <div className='grid-4r12c-13h2w color-0p4-orn-3'>
             </div>
@@ -286,106 +187,4 @@ const Planner = () => {
     );
 };
 
-export default Planner;
-
-
-// import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-// import FullCalendar from "@fullcalendar/react";
-// import dayGridPlugin from "@fullcalendar/daygrid";
-// import interactionPlugin from "@fullcalendar/interaction";
-// import timeGridPlugin from "@fullcalendar/timegrid";
-// import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
-// import "@fullcalendar/core/main.css";
-// import "@fullcalendar/daygrid/main.css";
-// import Calendar from '../components/Calendar';
-
-// const events =  [
-//   { id: 1, title: "event 1", date: "2019-12-01" },
-//   {
-//     title: "event 2",
-//     start: "2019-12-01",
-//     end: "2019-12-05",
-//     allDay: true,
-//     HostName: "William"
-//   },
-//   {
-//     title: "event 3",
-//     start: "2019-12-05",
-//     end: "2019-12-07",
-//     allDay: true
-//   },
-//   {
-//     title: "event 4",
-//     start: "2019-12-05",
-//     end: "2019-12-07",
-//     allDay: true
-//   },
-//   {
-//     title: "event 5",
-//     start: "2019-12-05",
-//     end: "2019-12-07",
-//     allDay: true
-//   },
-//   {
-//     title: "event 6",
-//     start: "2019-12-05",
-//     end: "2019-12-07",
-//     allDay: true
-//   }
-// ]
-
-{/* <div className="Sample__container">
-              <main className="Sample__container__content"></main>
-              {false && <Calendar
-                onChange={onChange}
-                value={value}
-                showWeekNumbers
-                // tileClassName={tileClassName}
-                tileContent={tileContent}
-              />}
-              </div>
-              {false && <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView='dayGridMonth'
-                weekends={false}
-                events={events}
-                eventContent={renderEventContent}
-              />}
-              {false && <FullCalendar
-                // schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
-                ref={calendarComponentRef}
-                defaultView="dayGridMonth"
-                dateClick={handleDateClick}
-                displayEventTime={true}
-                header={{
-                  left: "prev,next today",
-                  center: "title",
-                  right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-                }}
-                selectable={true}
-                plugins={[
-                  dayGridPlugin,
-                  interactionPlugin,
-                  timeGridPlugin,
-                  resourceTimeGridPlugin
-                ]}
-                eventClick={event => {
-                  console.log(event.event._def.publicId);
-                }}
-                events={state.events}
-                select={handleSelectedDates}
-                eventLimit={300}
-              />} 
-            
-            <Calendar
-                yearAndMonth={yearAndMonth}
-                onYearAndMonthChange={setYearAndMonth}
-                renderDay={(calendarDayObject) => (
-                  <div>
-                    <CalendarDayHeader calendarDayObject={calendarDayObject} />
-                  </div>
-                )}
-              />
-            
-            */}
+export default Ballances;
