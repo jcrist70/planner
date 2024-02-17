@@ -68,34 +68,34 @@ const Summary = () => {
     }, [creditCards, rent, utilities, insurance, subscriptions, tuition]);
 
     return (
-        <div className='app-planner-section'>
-        <div className='app-planner-container'>
-          <div className='app-planner-grid'>
+        <div className='app-summary-section'>
+        <div className='app-summary-container'>
+          <div className='app-summary-grid'>
             <div className='summary-header'>Summary</div>
-            <div className='app-planner-2r1c-1h1w'></div>
-            <div className='app-planner-2r2c-1h1w'></div>
-            <div className='app-planner-3r2c-1h1w'></div>
-            <div className='app-planner-4r2c-9h1w'></div>
+            <div className='grid-2r1c-1h1w'></div>
+            <div className='grid-2r2c-1h1w'></div>
+            <div className='grid-3r2c-1h1w'></div>
+            <div className='grid-4r2c-9h1w'></div>
 
             <div className='summary-container'>
                 <div className='summary-headline'><div>Total Worth: {totalCredits-totalDebit}</div><div>Total Worth wo/401k: {totalCredits-totalDebit-investment401k}</div></div>
             </div>
 
-            <div className='app-planner-4r3c-1h9w'>
+            <div className='grid-4r3c-1h9w'>
                 <div className='summary-label'>Total Credits:</div>
                 <div className='summary-value'>${totalCredits}</div>
             </div>
-            <div className='app-planner-5r3c-1h9w'>
+            <div className='grid-5r3c-1h9w'>
                 <div className='summary-label'>Total Debt:</div>
                 <div className='summary-value'>${totalDebit}</div>
             </div>
-            <div className='app-planner-6r3c-1h9w'>
+            <div className='grid-6r3c-1h9w'>
                 <div className='summary-label'>Delta:</div>
                 <div className='summary-value'>${totalCredits}-${totalDebit} = {totalCredits-totalDebit}</div>
             </div>
 
-            <div className='app-planner-7r3c-1h9w summary-section-title'>Credits</div>
-            <div className='app-planner-8r3c-3h9w'>
+            <div className='grid-7r3c-1h9w summary-section-title'>Credits</div>
+            <div className='grid-8r3c-3h9w'>
             <ul style={{ marginLeft: -12 }}>
                 {creditsArray && creditsArray.map((c) => {
                     return (
@@ -107,8 +107,8 @@ const Summary = () => {
                 })}
             </ul>    
             </div>
-            <div className="app-planner-11r3c-1h9w summary-section-title">Debts</div>
-            <div className='app-planner-12r3c-3h9w'>
+            <div className="grid-11r3c-1h9w summary-section-title">Debts</div>
+            <div className='grid-12r3c-3h9w'>
             <ul style={{ marginLeft: -12 }}>
                 {debtArray && debtArray.map((d) => {
                     return (
@@ -124,15 +124,15 @@ const Summary = () => {
                 </li> 
             </ul>    
             </div>
-            <div className='app-planner-15r3c-1h9w'>
+            <div className='grid-15r3c-1h9w'>
                 <div className='summary-label'>Current CC Debt:</div>
                 <div className='summary-value'>${creditCards}</div>
             </div>
             
-            <div className='app-planner-4r12c-9h1w'></div>
-            <div className='app-planner-2r11c-1h1w'></div>
-            <div className='app-planner-2r10c-1h1w'></div>
-            <div className='app-planner-3r10c-1h1w'></div>
+            <div className='grid-4r12c-9h1w'></div>
+            <div className='grid-2r11c-1h1w'></div>
+            <div className='grid-2r10c-1h1w'></div>
+            <div className='grid-3r10c-1h1w'></div>
 
           </div>
         </div>
@@ -141,33 +141,3 @@ const Summary = () => {
 };
 
 export default Summary;
-
-
-// <div className='app-planner-9r3c-1h9w'></div>
-// <div className='app-planner-10r3c-1h9w'></div>
-// <div className='app-planner-12r3c-1h9w'></div>
-
-// <li className='li-wrapper'>
-//                     <div className='summary-label'>- CreditCards</div>
-//                     <div className='summary-value'>${creditCards}</div>
-//                 </li>
-//                 <li className='li-wrapper'>
-//                     <div className='summary-label'>- rent</div>
-//                     <div className='summary-value'>${rent}</div>
-//                 </li>
-//                 <li className='li-wrapper'>
-//                     <div className='summary-label'>- utilities</div>
-//                     <div className='summary-value'>${utilities}</div>
-//                 </li>
-//                 <li className='li-wrapper'>
-//                     <div className='summary-label'>- insurance</div>
-//                     <div className='summary-value'>${insurance}</div>
-//                 </li>
-//                 <li className='li-wrapper'>
-//                     <div className='summary-label'>- subscriptions</div>
-//                     <div className='summary-value'>${subscriptions}</div>
-//                 </li>
-//                 <li className='li-wrapper'>
-//                     <div className='summary-label'>- tuition</div>
-//                     <div className='summary-value'>${tuition}</div>
-//                 </li>

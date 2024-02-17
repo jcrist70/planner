@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import './style/index.css';
 import './style/app.css';
+import './style/grid.css';
 import './style/nav.css';
 import './style/planner.css';
 import './style/debts.css';

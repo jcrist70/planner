@@ -148,8 +148,8 @@ const Accounts = () => {
     }
 
   return (
-      <div className='app-planner-section'>
-        <div className='app-planner-container'>
+      <div className='app-accounts-section'>
+        <div className='app-accounts-container'>
           <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
@@ -165,8 +165,8 @@ const Accounts = () => {
                 <button style={{ margin: '3px', marginLeft: '25%', height: '35px', width: '120px' }} onClick={abortModal}>Cancle</button>
                 
             </Modal>
-          <div className='debt-page-grid'>
-            <div className='debt-page-header'>Accounts</div>
+          <div className='accounts-page-grid'>
+            <div className='accounts-page-header'>Accounts</div>
             <div className='debts-2r1c-2h13w'>
 
               <Select maxMenuHeight={150} 

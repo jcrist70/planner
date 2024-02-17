@@ -1,4 +1,14 @@
 
+.app-debt-container {
+    margin-top: 45px;
+    width: 95vw;
+    height: 82vh;
+    /* background-color: rgba(255, 126, 126, 0.4); */
+    /* margin: 10px; */
+    padding: 10px;
+}
+
+
 .debt-page-grid {
     display: grid;
     grid-template-rows: repeat(15, 5vh);

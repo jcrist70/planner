@@ -34,7 +34,31 @@
     justify-content: center;
     align-items: top;
 }
+.app-summary-section {
+    grid-row: 1/15;
+    grid-column: 1/21;
+    background-color: rgba(139, 126, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: top;
+}
 .app-planner-section {
+    grid-row: 1/15;
+    grid-column: 1/21;
+    background-color: rgba(139, 126, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: top;
+}
+.app-debt-section {
+    grid-row: 1/15;
+    grid-column: 1/21;
+    background-color: rgba(139, 126, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: top;
+}
+.app-accounts-section {
     grid-row: 1/15;
     grid-column: 1/21;
     background-color: rgba(139, 126, 255, 0.8);

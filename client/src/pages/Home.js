@@ -62,7 +62,7 @@ const Home = () => {
             console.log("setting locContext to :", context)
             setLocContext(context);
         }
-    }, [AudioContext])
+    }, [context])
 
     if (Math.random() > 0.85) {
         config = Object.assign(config, {

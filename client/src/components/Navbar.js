@@ -56,6 +56,9 @@ const Navbar = () => {
                 {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/summary')}>
                 Summary
                 </div>}
+                {loggedIn && <div className='nav-bar-link' onClick={() => navigate('/grid')}>
+                Grid
+                </div>}
             </div>
             <div className='nav-bar-sec-lft'>
                 {!loggedIn && <div className='nav-bar-link' onClick={handleClickLogin}>

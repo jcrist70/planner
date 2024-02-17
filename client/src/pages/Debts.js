@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid }from 'uuid';
 
-import TableBasic from '../components/TableBasic';
+import TableDebts from '../components/TableDebts';
 import DebtBar from '../components/DebtBar';
 // APIS
 import { getDebtsApi, addDebtApi } from '../apis/debt.api';
@@ -135,8 +135,8 @@ const Debts = () => {
   }
 
   return (
-      <div className='app-planner-section'>
-        <div className='app-planner-container'>
+      <div className='app-debt-section'>
+        <div className='app-debt-container'>
           <div className='debt-page-grid'>
             <div className='debt-page-header'>Debts</div>
             <div className='debts-2r1c-2h13w'>
@@ -181,10 +181,9 @@ const Debts = () => {
             
             </div>
             <div className='debts-4r1c-13h11w'>
-              <TableBasic data={tableData} />
+              <TableDebts data={tableData} />
             </div>
             <div className='debts-4r12c-13h2w'>
-            {false && <DebtBar addDebt={addDebt} />}
             </div>
 
           </div>
