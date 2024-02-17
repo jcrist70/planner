@@ -15,7 +15,7 @@ import Accounts from './pages/Accounts';
 // API
 import { verifyUser } from './apis/user.api';
 // REDUX 
-import { setLoginStatus } from './redux/user.slice';
+import { setLoginStatus, resetUser } from './redux/user.slice';
 import { setContext, setPage } from './redux/app.slice';
 
 
@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     setInterval(() => {
       refreshToken();
-    }, 30000);
+    }, 5000);
     if (!loggedIn) {
       console.log('NOT LOGGED IN')
       dispatch(setContext('login'));
@@ -52,7 +52,12 @@ function App() {
         });
       } else if (verification.data.status === 'no session') {
         // LOGOUT LOCALLY
+        dispatch(resetUser());
         dispatch(setLoginStatus(false));
+        console.log('NOT LOGGED IN')
+        dispatch(setContext('login'));
+        
+        window.history.pushState({}, '', '/login') ;
       }
     } catch (err) {
       console.log('!! AUTO LOGIN ERROR !!', err)
@@ -71,12 +76,15 @@ function App() {
        <Navbar />
       </header>
         <Routes>
+        
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/accounts' element={<Accounts />} />
-          <Route path='/debts' element={<Debts />} />
-          <Route path='/summary' element={<Summary />} />
-          <Route path='/grid' element={<GridTemplate />} />
+          {loggedIn && <Route path='/accounts' element={<Accounts />} />}
+          {loggedIn && <Route path='/debts' element={<Debts />} />}
+          {loggedIn && <Route path='/summary' element={<Summary />} />}
+          {loggedIn && <Route path='/grid' element={<GridTemplate />} />}
+          <Route path='*' element={<Home />} />
+
         </Routes>
       </Router>
       <footer className='app-footer'>Contact</footer>

@@ -11,6 +11,9 @@ import TableAccounts from '../components/TableAccounts'
 // APIS
 import { getFamilyApi } from '../apis/family.api';
 import { getAccountsApi, addAccountApi } from '../apis/account.api';
+// REDUX 
+import { setLoginStatus } from '../redux/user.slice';
+import { setContext, setPage } from '../redux/app.slice';
 
 const types = [
   {label: 'checking', value: 'checking'},
@@ -32,6 +35,7 @@ const customStyles = {
 };
 
 const Accounts = () => {
+  const dispatch = useDispatch();
   const [ accounts, setAccounts ] = useState([]);
   const [ type, setType ] = useState(null);
   const [ institutuion, setInstitutuion ] = useState(null);
@@ -62,6 +66,11 @@ const Accounts = () => {
     console.log('GET ACCOUNTS')
     const dbAccounts = await getAccountsApi();
     console.log('getAccounts dbAccounts.data:', dbAccounts.data)
+    if (dbAccounts.data.err === 'Invalid or expired token') {
+      console.log('NOT LOGGED IN')
+      dispatch(setContext('login'));
+      window.history.pushState({}, '', '/') ;
+    }
     if (dbAccounts.data) {
       if (dbAccounts.data.length > 0) {
         console.log('getAccounts dbAccounts.data:', dbAccounts.data)
