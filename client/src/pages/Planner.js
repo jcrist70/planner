@@ -275,7 +275,7 @@ const Planner = () => {
             </div>
             <div className='grid-4r1c-13h11w'>
               {false && <TableDebts data={tableData} />}
-              <Calendar />
+              <Calendar selectedDate={startDate} />
             </div>
             <div className='grid-4r12c-13h2w color-0p4-orn-3'>
             </div>

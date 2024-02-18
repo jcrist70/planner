@@ -26,25 +26,18 @@ const Calendar = ({ selectedDate }) => {
     const [ skipNumber, setSkiopNumber ] = useState(0);
     const [ daysInMonth, setDaysInMonth ] = useState(30);
     const [ weekNumber, setWeekNumber ] = useState();
-
-    useEffect(() => {
-
-    }, [])
     
     useEffect(() => {
-
       // all date: correct
-      console.log('date:', year, date.getMonth(), month, date) 
+      console.log('date:', year, month, date) 
 
 
-      // let day = new Date(year + "-" + month + 1 + "-01").getDay();
       let day = new Date(year + "-" + month + 1 + "-01").getDay();
       // wrong
       console.log('firstDay:', daysOfWeek[day]) 
       setSkiopNumber(day)
       setFirstDay(daysOfWeek[day]);
-      // let days = new Date(year, month + 1, 0).getDate();
-      let days = new Date(year, date.getMonth()+1, 0).getDate();
+      let days = new Date(year, month + 1, 0).getDate();
       // wrong
       console.log('days:', days) 
       setDaysInMonth(days);
