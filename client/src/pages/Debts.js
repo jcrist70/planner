@@ -139,7 +139,7 @@ const Debts = () => {
         <div className='app-debt-container'>
           <div className='debt-page-grid'>
             <div className='debt-page-header color-0p5-gry-1'>Debts</div>
-            <div className='grid-2r1c-2h13w color-1-orn-1'>
+            <div className='grid-2r1c-2h13w space-around color-1-orn-1'>
 
               {false && <DebtBar addDebt={addDebt} />}
               <Select maxMenuHeight={150} 

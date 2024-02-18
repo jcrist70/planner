@@ -17,19 +17,27 @@ const daysOfWeek = [
     {index: 7, label: "Sunday"},
   ];
 
+// Generate calendar
+// iff year, month exist load it (RTKq?)
+// else generate days, weeks, month and year in DB by user/holder
 const Calendar = ({ selectedDate }) => {
     console.log('!!!! selectedDate:',selectedDate)
     const date = new Date(selectedDate);
     const [ year, setYear ] = useState(date.getFullYear());
     const [ month, setMonth ] = useState(date.getMonth());
+    const [ dbYear, setDbYear ] = useState({});
     const [ firstDay, setFirstDay ] = useState('')
     const [ skipNumber, setSkiopNumber ] = useState(0);
     const [ daysInMonth, setDaysInMonth ] = useState(30);
     const [ weekNumber, setWeekNumber ] = useState();
 
-    useEffect(() => {
-
-    }, [])
+    // useEffect(() => {
+    //   getYear();
+    // }, [])
+    // const getYear = async (year) => {
+    //   const yr = await getYearApi(year);
+    //   setDbYear(yr);
+    // }
     
     useEffect(() => {
 
@@ -65,6 +73,11 @@ const Calendar = ({ selectedDate }) => {
       return Math.ceil(dayOfYear/7)
     };
 
+    const dayClickHandler = async (target) => {
+      const id = JSON.parse(target.id);
+      console.log('--> dayClickHandler week, day:', id.week, id.day)
+    }
+
     let weekCount = weekNumber;
     let adjust = 0;
     const renderDays = () => {
@@ -80,7 +93,8 @@ const Calendar = ({ selectedDate }) => {
         if (i < skipNumber -1) {  
           dayList.push(<div></div>);
         } else if ((i%8+adjust) !== 0) {
-          dayList.push(<div>{i-skipNumber+2}</div>);
+          const id = JSON.stringify({day: i-skipNumber+2, week: weekCount-1});
+          dayList.push(<div id={id} onClick={e => dayClickHandler(e.target)}>{i-skipNumber+2}</div>);
         } 
       }
       return dayList;

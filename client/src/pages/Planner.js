@@ -259,18 +259,9 @@ const Planner = () => {
         <div className='app-debt-container'>
           <div className='debt-page-grid'>
             <div className='debt-page-header color-0p5-gry-1'>Planner</div>
-            <div className='grid-2r1c-2h13w color-1-orn-1'>
-
-              {false && <DebtBar addDebt={addDebt} />}
-              <Select maxMenuHeight={150} 
-              className=""
-              placeholder='select period'
-              value={period} 
-              options={periods} 
-              onChange={(option) => setPeriod(option)} 
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
+            <div className='grid-2r1c-2h13w center color-1-orn-1'>
+      
               Starting: <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
-              Ending: <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
               
             </div>
             <div className='grid-4r1c-13h11w'>
@@ -288,6 +279,16 @@ const Planner = () => {
 
 export default Planner;
 
+// Ending: <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
+              
+// {false && <DebtBar addDebt={addDebt} />}
+//               <Select maxMenuHeight={150} 
+//               className=""
+//               placeholder='select period'
+//               value={period} 
+//               options={periods} 
+//               onChange={(option) => setPeriod(option)} 
+//               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
 
 // import Calendar from 'react-calendar';
 // import 'react-calendar/dist/Calendar.css';

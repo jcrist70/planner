@@ -167,7 +167,7 @@ const Accounts = () => {
             </Modal>
           <div className='accounts-page-grid'>
             <div className='accounts-page-header color-0p5-gry-1'>Accounts</div>
-            <div className='grid-2r1c-2h13w color-1-orn-1'>
+            <div className='grid-2r1c-2h13w space-around color-1-orn-1'>
 
               <Select maxMenuHeight={150} 
               className=""
