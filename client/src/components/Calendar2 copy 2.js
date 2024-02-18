@@ -56,8 +56,8 @@ const Calendar = () => {
       console.log('daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek:', daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek)
       const dayList = [];
       for (let i = 0; i < daysInMonth+skipNumber-1; i++) {
-        console.log('i, i%8, weekCount:', i, i%8, weekCount)
-        if (i === 0 || i%8-skipNumber-2+adjust-2 === 0) { 
+        console.log('i, i%8, weekCount:', i, i%7, weekCount)
+        if (i === 0 || i%7-skipNumber-2+adjust-1 === 0) { 
           dayList.push(<div>wk {weekCount}</div>);
           weekCount++;
           adjust++;
@@ -65,7 +65,7 @@ const Calendar = () => {
         
         if (i < skipNumber -1) {  
           dayList.push(<div></div>);
-        } else if ((i%8+adjust) !== 0) {
+        } else if ((i%7+adjust) !== 0) {
           dayList.push(<div>{i-skipNumber+2}</div>);
         } 
       }
@@ -115,7 +115,6 @@ const Calendar = () => {
             <div>{daysOfWeek[4].label}</div>
             <div>{daysOfWeek[5].label}</div>
             <div>{daysOfWeek[6].label}</div>
-            <div>{daysOfWeek[7].label}</div>
         </div>
 
         <div class="calendar__dates">

@@ -7,14 +7,13 @@ import { range } from "ramda";
 import classNames from "classnames";
 
 const daysOfWeek = [
-    {index: 0, label: "#"},
+    {index: 0, label: "Sunday"},
     {index: 1, label: "Monday"},
     {index: 2, label: "Tuesday"},
     {index: 3, label: "Wednesday"},
     {index: 4, label: "Thursday"},
     {index: 5, label: "Friday"},
-    {index: 6, label: "Saturday"},
-    {index: 7, label: "Sunday"},
+    {index: 6, label: "Saturday"}
   ];
 
 const Calendar = () => {
@@ -24,7 +23,6 @@ const Calendar = () => {
     const [ firstDay, setFirstDay ] = useState('')
     const [ skipNumber, setSkiopNumber ] = useState(0);
     const [ daysInMonth, setDaysInMonth ] = useState(30);
-    const [ weekNumber, setWeekNumber ] = useState();
     
     useEffect(() => {
       console.log('date:', year, month, date) 
@@ -35,39 +33,19 @@ const Calendar = () => {
       let days = new Date(year, month + 1, 0).getDate();
       console.log('days:', days) 
       setDaysInMonth(days);
-      // var today = new Date(year + "-" + month + "-01");
-      var today = new Date(date.getFullYear(), date.getMonth(), 1)
-      console.log('today:', today) 
-      var currentWeekNumber = today.getWeek();
-      setWeekNumber(currentWeekNumber);
-      console.log('currentWeekNumber:', currentWeekNumber);
     }, [year, month])
      
-    Date.prototype.getWeek = function() {
-      var onejan = new Date(this.getFullYear(),0,1);
-      var today = new Date(this.getFullYear(),this.getMonth(),this.getDate());
-      var dayOfYear = ((today - onejan + 86400000)/86400000);
-      return Math.ceil(dayOfYear/7)
-    };
-
-    let weekCount = weekNumber;
-    let adjust = 0;
     const renderDays = () => {
       console.log('daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek:', daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek)
       const dayList = [];
-      for (let i = 0; i < daysInMonth+skipNumber-1; i++) {
-        console.log('i, i%8, weekCount:', i, i%8, weekCount)
-        if (i === 0 || i%8-skipNumber-2+adjust-2 === 0) { 
-          dayList.push(<div>wk {weekCount}</div>);
-          weekCount++;
-          adjust++;
-        }
-        
-        if (i < skipNumber -1) {  
+      for (let i = 0; i < daysInMonth+skipNumber; i++) {
+        // console.log('i:', i)
+        if (i < skipNumber) {  
           dayList.push(<div></div>);
-        } else if ((i%8+adjust) !== 0) {
-          dayList.push(<div>{i-skipNumber+2}</div>);
-        } 
+        } else {
+          console.log(i%7)
+          dayList.push(<div>{i-skipNumber+1}</div>);
+        }
       }
       return dayList;
     }
@@ -115,7 +93,6 @@ const Calendar = () => {
             <div>{daysOfWeek[4].label}</div>
             <div>{daysOfWeek[5].label}</div>
             <div>{daysOfWeek[6].label}</div>
-            <div>{daysOfWeek[7].label}</div>
         </div>
 
         <div class="calendar__dates">
