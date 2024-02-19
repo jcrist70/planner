@@ -71,7 +71,7 @@ const Planner = () => {
   const [ year, setYear ] = useState(new Date().getFullYear());
   const [ month, setMonth ] = useState(new Date().getMonth());
   const [ yearData, setYearData ] = useState({});
-  const [ monthData, setMonthData ] = useState({});
+  const [ monthData, setMonthData ] = useState(null);
 
   const [value, setValue] = useState(new Date());
   const [ period, setPeriod ] = useState(null);
@@ -131,14 +131,22 @@ const Planner = () => {
     // getDebts();
     getFamily();
     getYearData();
-  }, [])
+  }, [startDate])
+
+  // useEffect(() => {
+  //   extractMonthData();
+  // }, [yearData])
 
   const getYearData = async () => {
     const dbYear = await getYearApi(2024);
-    console.log('-------> dbYear.data:', dbYear.data)
-    let monthDbData = dbYear.data.months.find(e => e.number === month);
+    // await extractMonthData(dbYear);
+    await setYearData(dbYear.data);
+    console.log('-------> dbYear.data:', month, dbYear.data)
+  }
+  const extractMonthData = async (dbYear) => {
+    let monthDbData = dbYear.data.months.find(e => e.number == month);
     console.log('-------> monthDbData:', month, monthDbData)
-    setYearData(dbYear.data);
+    setMonthData(monthDbData);
   }
 
   useEffect(() => {
@@ -290,7 +298,7 @@ const Planner = () => {
             </div>
             <div className='grid-4r1c-13h11w'>
 
-              <Calendar selectedDate={startDate} data={monthData} />
+              <Calendar selectedDate={startDate} data={yearData} />
 
             </div>
             <div className='grid-4r12c-13h2w color-0p4-orn-3'>

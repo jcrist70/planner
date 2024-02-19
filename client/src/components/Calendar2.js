@@ -20,9 +20,11 @@ const daysOfWeek = [
 // Generate calendar
 // iff year, month exist load it (RTKq?)
 // else generate days, weeks, month and year in DB by user/holder
-const Calendar = ({ selectedDate }) => {
+const Calendar = ({ selectedDate, data }) => {
     console.log('!!!! selectedDate:',selectedDate)
-    const date = new Date(selectedDate);
+    console.log('!!!! data:', data)
+    console.log('!!!! data.months:', data.months)
+     const date = new Date(selectedDate);
     // const [ date, setDate ] = useState(new Date(selectedDate));
     const [ year, setYear ] = useState(date.getFullYear());
     const [ month, setMonth ] = useState(date.getMonth());
@@ -30,15 +32,22 @@ const Calendar = ({ selectedDate }) => {
     const [ firstDay, setFirstDay ] = useState('')
     const [ skipNumber, setSkiopNumber ] = useState(0);
     const [ daysInMonth, setDaysInMonth ] = useState(30);
-    const [ weekNumber, setWeekNumber ] = useState();
+    const [ weekNumber, setWeekNumber ] = useState(0);
 
-    // useEffect(() => {
-    //   getYear();
-    // }, [])
+    const [ months, setmonths ] = useState(data.months);
+    const [ weeks, setWeeks ] = useState(null);
+
+    useEffect(() => {
+      // getYear();
+      const monthData = data.months;
+      console.log('monthData:', monthData)
+      setmonths(monthData);
+    }, [data])
     // const getYear = async (year) => {
     //   const yr = await getYearApi(year);
     //   setDbYear(yr);
     // }
+
     
     useEffect(() => {
       console.log('date:', year, date.getMonth(), month, date) 
@@ -54,6 +63,9 @@ const Calendar = ({ selectedDate }) => {
       var currentWeekNumber = first.getWeek();
       setWeekNumber(currentWeekNumber);
       console.log('currentWeekNumber:', currentWeekNumber);
+      // let monthDbData = data.months.find(e => e.number == month);
+      // console.log('-------> monthDbData:', month, monthDbData)
+   
     }, [year, month, selectedDate])
      
     Date.prototype.getWeek = function() {
@@ -71,10 +83,11 @@ const Calendar = ({ selectedDate }) => {
     let weekCount = weekNumber;
     let adjust = 0;
     const renderDays = () => {
-      console.log('daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek:', daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek)
+      // console.log('daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek:', daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek)
       const dayList = [];
       for (let i = 0; i < daysInMonth+skipNumber-1; i++) {
         // console.log('i, i%8, weekCount:', i, i%8, weekCount)
+        // console.log('weekCount, data:', weekCount, data.find(e => e.number === weekCount))
         if (i === 0 || i%8-skipNumber-2+adjust-2 === 0) { 
           dayList.push(<div>wk {weekCount}</div>);
           weekCount++;
