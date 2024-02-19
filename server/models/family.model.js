@@ -12,6 +12,9 @@ const familySchema = new mongoose.Schema(
     name: {
         type: String,
     },
+    years: [{
+        type: ObjectId, ref: 'Year'
+    }],
     debtItems: [{
         type: ObjectId, ref: 'DebtItem'
     }],

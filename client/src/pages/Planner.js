@@ -13,6 +13,7 @@ import Calendar from '../components/Calendar2';
 // APIS
 import { getDebtsApi, addDebtApi } from '../apis/debt.api';
 import { getFamilyApi } from '../apis/family.api';
+import { getYearApi } from '../apis/calendar.api';
 
 const periods = [
   {label: 'Day', value: 'day'},
@@ -67,6 +68,7 @@ let suppliers = [
 const Planner = () => {
   const calendarComponentRef = React.createRef();
 
+  const [ yearData, setYearData ] = useState({});
   const [value, setValue] = useState(new Date());
   const [ period, setPeriod ] = useState(null);
   
@@ -124,7 +126,14 @@ const Planner = () => {
   useEffect(() => {
     // getDebts();
     getFamily();
+    getYearData();
   }, [])
+
+  const getYearData = async () => {
+    const dbYear = await getYearApi(2024);
+    console.log('-------> dbYear.data:', dbYear.data)
+    setYearData(dbYear.data);
+  }
 
   useEffect(() => {
     console.log('date:', startDate)
