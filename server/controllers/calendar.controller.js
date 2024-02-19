@@ -6,6 +6,9 @@ const Year = require('../models/creditItem.model');
 const Month = require('../models/month.model');
 const Week = require('../models/week.model');
 const Day = require('../models/day.model');
+// const CreditItem = require('../models/creditItem.model');
+// const DebtItem = require('../models/debtItem.model');
+
 
 
 exports.updateYear = async (req,res) => {
@@ -35,12 +38,12 @@ exports.updateYear = async (req,res) => {
                 console.log("Year CREATED", createdYear);
                 res.json(createdYear);
             } catch (err) {
-                console.log('----x updateYear new Year (chapterGroup.ctrlr 58):', err);
+                console.log('----x updateYear new Year (calendar.ctrlr 58):', err);
                 res.send({error: "dB access failed"})
             }
         } 
     } catch (err) {
-        console.log('----x updateYear findOneAndUpdate (chapterGroup.ctrlr 42):', err);
+        console.log('----x updateYear findOneAndUpdate (calendar.ctrlr 42):', err);
         res.send({error: "dB access failed"})
     } 
   };
@@ -74,12 +77,12 @@ exports.updateMonth = async (req,res) => {
                 console.log("Month CREATED", createdMonth);
                 res.json(createdMonth);
             } catch (err) {
-                console.log('----x updateMonth new Month (chapterGroup.ctrlr 77):', err);
+                console.log('----x updateMonth new Month (calendar.ctrlr 77):', err);
                 res.send({error: "dB access failed"})
             }
         } 
     } catch (err) {
-        console.log('----x updateMonth findOneAndUpdate (chapterGroup.ctrlr 82):', err);
+        console.log('----x updateMonth findOneAndUpdate (calendar.ctrlr 82):', err);
         res.send({error: "dB access failed"})
     } 
   };
@@ -122,9 +125,9 @@ exports.updateWeek = async (req,res) => {
   };
 
 exports.getDay = async (req, res) => {
-    console.log('----> getDay (family.controller 125)', req.date)
+    console.log('----> getDay (calendar.controller 125)', req.body.date)
     try {
-        const day = await Day.findOne({ date: req.date })
+        const day = await Day.findOne({ date: req.body.date })
         .populate("debtItems", "type startDate endDate item price cycle frequency supplier account")
         .populate("creditItems", "type date item amount cycle frequency source account user")
         .populate("holders", "name email family accounts role region")
@@ -134,12 +137,12 @@ exports.getDay = async (req, res) => {
         if (day) {
             res.status(200).json(day);
         } else {
-            console.log('----x getDay  Day.find (family.controller 137) NO DAY for date:', req.date)
+            console.log('----x getDay  Day.find (calendar.controller 137) NO DAY for date:', req.body.date)
             res.status(200).json({error: "NO DAY FOUND"})
         }
 
     } catch (err) {
-        console.log('----x getDay Day.findOne (family.controller 142):', err)
+        console.log('----x getDay Day.findOne (calendar.controller 142):', err)
         res.status(200).json({error: "dB access failed"})
     }
         
@@ -157,8 +160,8 @@ exports.updateDay = async (req,res) => {
                 date: day.date,
                 dayName: day.dayName,
                 number: day.number,
-                debts: day.debts,
-                credits: day.credits,
+                debtItems: day.debts,
+                creditItems: day.credits,
                 accumulatedDebt: day.accumulatedDebt,
                 accumulatedCredit: day.taraccumulatedCreditgets,
                 targets: day.targets,
@@ -175,12 +178,12 @@ exports.updateDay = async (req,res) => {
                 console.log("Day CREATED", createdDay);
                 res.json(createdDay);
             } catch (err) {
-                console.log('----x updateDay new Day (chapterGroup.ctrlr 153):', err);
+                console.log('----x updateDay new Day (calendar.ctrlr 153):', err);
                 res.send({error: "dB access failed"})
             }
         } 
     } catch (err) {
-        console.log('----x updateDay findOneAndUpdate (chapterGroup.ctrlr 158):', err);
+        console.log('----x updateDay findOneAndUpdate (calendar.ctrlr 158):', err);
         res.send({error: "dB access failed"})
     } 
   };

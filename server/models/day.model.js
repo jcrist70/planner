@@ -17,11 +17,11 @@ const daySchema = new mongoose.Schema(
     number: {
         type: Number,
     },
-    debts: [{
-        type: ObjectId, ref: 'debtItem',
+    debtItems: [{
+        type: ObjectId, ref: 'DebtItem',
     }],
-    credits: [{
-        type: ObjectId, ref: 'creditItem'
+    creditItems: [{
+        type: ObjectId, ref: 'CreditItem'
     }],
     accumulatedDebt: {
         type: Number,
