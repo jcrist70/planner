@@ -121,6 +121,30 @@ exports.updateWeek = async (req,res) => {
     } 
   };
 
+exports.getDay = async (req, res) => {
+    console.log('----> getDay (family.controller 125)', req.date)
+    try {
+        const day = await Day.findOne({ date: req.date })
+        .populate("debtItems", "type startDate endDate item price cycle frequency supplier account")
+        .populate("creditItems", "type date item amount cycle frequency source account user")
+        .populate("holders", "name email family accounts role region")
+        .exec();
+        console.log('----> day:', day)
+
+        if (day) {
+            res.status(200).json(day);
+        } else {
+            console.log('----x getDay  Day.find (family.controller 137) NO DAY for date:', req.date)
+            res.status(200).json({error: "NO DAY FOUND"})
+        }
+
+    } catch (err) {
+        console.log('----x getDay Day.findOne (family.controller 142):', err)
+        res.status(200).json({error: "dB access failed"})
+    }
+        
+}
+
 exports.updateDay = async (req,res) => {
     const day = req.body.day;
     console.log('---- updateDay (calendar.ctrlr 126):', day)
@@ -130,6 +154,7 @@ exports.updateDay = async (req,res) => {
         existing = await Day.findOneAndUpdate(
             { dayId: day.dayId },
             {   
+                date: day.date,
                 dayName: day.dayName,
                 number: day.number,
                 debts: day.debts,

@@ -8,7 +8,7 @@ const { updateYear, updateMonth, updateWeek, updateDay } = require('../controlle
 router.post("/update/year", authCheck, updateYear);
 router.post("/update/month", authCheck, updateMonth);
 router.post("/update/week", authCheck, updateWeek);
-router.post("/update/day", authCheck, updateDay);
+router.post("/update/day", updateDay);
 
 
 module.exports = router;

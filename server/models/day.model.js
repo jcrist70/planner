@@ -8,6 +8,9 @@ const daySchema = new mongoose.Schema(
         required: true,
         unique: true,
     },
+    date: {
+        type: Date,
+    },
     dayName: {
         type: String,
     },
