@@ -5,7 +5,7 @@ const { authCheck } = require("../middlewares/auth.middleware");
 const { getYear, updateYear, getMonth, updateMonth, getWeek, updateWeek, getDay, updateDay } = require('../controllers/calendar.controller');
 
 
-router.post("/get/year", getYear);
+router.post("/get/year", authCheck, getYear);
 router.post("/update/year", updateYear);
 router.post("/get/month", getMonth);
 router.post("/update/month", updateMonth);

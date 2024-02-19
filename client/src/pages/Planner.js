@@ -66,9 +66,13 @@ let suppliers = [
 ]
 
 const Planner = () => {
-  const calendarComponentRef = React.createRef();
+  // const calendarComponentRef = React.createRef();
 
+  const [ year, setYear ] = useState(new Date().getFullYear());
+  const [ month, setMonth ] = useState(new Date().getMonth());
   const [ yearData, setYearData ] = useState({});
+  const [ monthData, setMonthData ] = useState({});
+
   const [value, setValue] = useState(new Date());
   const [ period, setPeriod ] = useState(null);
   
@@ -132,11 +136,17 @@ const Planner = () => {
   const getYearData = async () => {
     const dbYear = await getYearApi(2024);
     console.log('-------> dbYear.data:', dbYear.data)
+    let monthDbData = dbYear.data.months.find(e => e.number === month);
+    console.log('-------> monthDbData:', month, monthDbData)
     setYearData(dbYear.data);
   }
 
   useEffect(() => {
-    console.log('date:', startDate)
+    const yr = new Date(startDate).getFullYear();
+    setYear(yr);
+    const mo = new Date(startDate).getMonth() + 1; 
+    setMonth(mo);
+    console.log('date:', yr, mo)
   }, [startDate])
 
   useEffect(() => {
@@ -268,14 +278,20 @@ const Planner = () => {
         <div className='app-debt-container'>
           <div className='debt-page-grid'>
             <div className='debt-page-header color-0p5-gry-1'>Planner</div>
-            <div className='grid-2r1c-2h13w center color-1-orn-1'>
+            <div className='grid-2r1c-2h13w left color-1-orn-1' style={{ paddingLeft: '20px' }}>
       
-              Starting: <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
+              <DatePicker 
+              dateFormat="MMMM yyyy"
+              showMonthYearPicker
+              className="planner-bar-mo-yr" 
+              selected={startDate} 
+              onChange={(date) => setStartDate(date)} />
               
             </div>
             <div className='grid-4r1c-13h11w'>
-              {false && <TableDebts data={tableData} />}
-              <Calendar selectedDate={startDate} />
+
+              <Calendar selectedDate={startDate} data={monthData} />
+
             </div>
             <div className='grid-4r12c-13h2w color-0p4-orn-3'>
             </div>

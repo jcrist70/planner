@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
+const Family = require('../models/family.model');
 const User = require('../models/user.model');
 const Year = require('../models/year.model');
 const Month = require('../models/month.model');
@@ -11,9 +12,12 @@ const Day = require('../models/day.model');
 
 
 exports.getYear = async (req, res) => {
-    console.log('----> getYear (calendar.controller 14)', req.body.year)
+    console.log('----> getYear (calendar.controller 15)', req.body.year)
     try {
-        const month = await Year.findOne({ number: req.body.year })
+        const family = await Family.findOne({ _id: req.session.user.family });
+        console.log('----> getYear (calendar.controller 18) family:', family)
+
+        const year = await Year.findOne({ number: req.body.year })
         .populate("months", "monthId year number accumulatedDebt accumulatedCredit targets holders")
         .populate({path: "months", populate: {path: "weeks"}})
         .populate({path: "months", populate: {path: "weeks", populate: {path: "days", populate: {path: "debtItems"}}}} )
@@ -21,17 +25,17 @@ exports.getYear = async (req, res) => {
         // .populate("targets", "name email family accounts role region")
         .populate("holders", "name email family accounts role region")
         .exec();
-        console.log('----> month:', month)
+        console.log('----> year:', year)
 
-        if (month) {
-            res.status(200).json(month);
+        if (year) {
+            res.status(200).json(year);
         } else {
-            console.log('----x getYear  Month.find (calendar.controller 29) NO year:', req.body.year)
+            console.log('----x getYear  Year.find (calendar.controller 33) NO year:', req.body.year)
             res.status(200).json({error: "NO YEAR FOUND"})
         }
 
     } catch (err) {
-        console.log('----x getYear Month.findOne (calendar.controller 34):', err)
+        console.log('----x getYear Year.findOne (calendar.controller 38):', err)
         res.status(200).json({error: "dB access failed"})
     }
         

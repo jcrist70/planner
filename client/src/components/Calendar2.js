@@ -23,6 +23,7 @@ const daysOfWeek = [
 const Calendar = ({ selectedDate }) => {
     console.log('!!!! selectedDate:',selectedDate)
     const date = new Date(selectedDate);
+    // const [ date, setDate ] = useState(new Date(selectedDate));
     const [ year, setYear ] = useState(date.getFullYear());
     const [ month, setMonth ] = useState(date.getMonth());
     const [ dbYear, setDbYear ] = useState({});
@@ -40,25 +41,14 @@ const Calendar = ({ selectedDate }) => {
     // }
     
     useEffect(() => {
-
-      // all date: correct
       console.log('date:', year, date.getMonth(), month, date) 
-
-
-      // let day = new Date(year + "-" + month + 1 + "-01").getDay();
       let day = new Date(year + "-" + month + 1 + "-01").getDay();
-      // wrong
       console.log('firstDay:', daysOfWeek[day]) 
       setSkiopNumber(day)
       setFirstDay(daysOfWeek[day]);
-      // let days = new Date(year, month + 1, 0).getDate();
       let days = new Date(year, date.getMonth()+1, 0).getDate();
-      // wrong
       console.log('days:', days) 
       setDaysInMonth(days);
-
-
-      // below working
       var first = new Date(date.getFullYear(), date.getMonth(), 1)
       console.log('first:', first) 
       var currentWeekNumber = first.getWeek();
@@ -94,7 +84,11 @@ const Calendar = ({ selectedDate }) => {
           dayList.push(<div></div>);
         } else if ((i%8+adjust) !== 0) {
           const id = JSON.stringify({day: i-skipNumber+2, week: weekCount-1});
-          dayList.push(<div id={id} onClick={e => dayClickHandler(e.target)}>{i-skipNumber+2}</div>);
+          dayList.push(
+          <div id={id} onClick={e => dayClickHandler(e.target)}>
+            {i-skipNumber+2}
+          </div>
+          );
         } 
       }
       return dayList;
