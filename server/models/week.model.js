@@ -8,6 +8,9 @@ const weekSchema = new mongoose.Schema(
         required: true,
         unique: true,
     },
+    year: {
+        type: Number,
+    },
     number: {
         type: Number,
     },
@@ -18,7 +21,7 @@ const weekSchema = new mongoose.Schema(
         type: Number,
     },
     days: [{
-        type: ObjectId, ref: 'day',
+        type: ObjectId, ref: 'Day',
     }],
     targets: [{
         type: Object

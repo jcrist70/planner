@@ -18,7 +18,7 @@ const yearSchema = new mongoose.Schema(
         type: Number,
     },
     months: [{
-        type: ObjectId, ref: 'month',
+        type: ObjectId, ref: 'Month',
     }],
     targets: [{
         type: Object

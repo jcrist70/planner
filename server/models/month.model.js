@@ -8,6 +8,9 @@ const monthSchema = new mongoose.Schema(
         required: true,
         unique: true,
     },
+    year: {
+        type: Number,
+    },
     number: {
         type: Number,
     },
@@ -25,7 +28,7 @@ const monthSchema = new mongoose.Schema(
         type: Number,
     },
     weeks: [{
-        type: ObjectId, ref: 'week',
+        type: ObjectId, ref: 'Week',
     }],
     targets: [{
         type: Object

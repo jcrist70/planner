@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
 const User = require('../models/user.model');
-const Year = require('../models/creditItem.model');
+const Year = require('../models/year.model');
 const Month = require('../models/month.model');
 const Week = require('../models/week.model');
 const Day = require('../models/day.model');
@@ -10,6 +10,32 @@ const Day = require('../models/day.model');
 // const DebtItem = require('../models/debtItem.model');
 
 
+exports.getYear = async (req, res) => {
+    console.log('----> getYear (calendar.controller 14)', req.body.year)
+    try {
+        const month = await Year.findOne({ number: req.body.year })
+        .populate("months", "monthId year number accumulatedDebt accumulatedCredit targets holders")
+        .populate({path: "months", populate: {path: "weeks"}})
+        .populate({path: "months", populate: {path: "weeks", populate: {path: "days", populate: {path: "debtItems"}}}} )
+        // .populate({path: "months", populate: {path: "weeks", populate: {path: "days", populate: {path: "creditItems"}}}} )
+        // .populate("targets", "name email family accounts role region")
+        .populate("holders", "name email family accounts role region")
+        .exec();
+        console.log('----> month:', month)
+
+        if (month) {
+            res.status(200).json(month);
+        } else {
+            console.log('----x getYear  Month.find (calendar.controller 29) NO year:', req.body.year)
+            res.status(200).json({error: "NO YEAR FOUND"})
+        }
+
+    } catch (err) {
+        console.log('----x getYear Month.findOne (calendar.controller 34):', err)
+        res.status(200).json({error: "dB access failed"})
+    }
+        
+}
 
 exports.updateYear = async (req,res) => {
     const year = req.body.year;
@@ -47,6 +73,33 @@ exports.updateYear = async (req,res) => {
         res.send({error: "dB access failed"})
     } 
   };
+
+exports.getMonth = async (req, res) => {
+    console.log('----> getMonth (calendar.controller 91)', req.body.year, req.body.month)
+    try {
+        const month = await Month.findOne({ year: req.body.year, number: req.body.month })
+        .populate("weeks", "dayId date dayName number debtItems creditItems accumulatedDebt accumulatedCredit targets holders")
+        .populate({path: "weeks", populate: {path: "days"}})
+        .populate({path: "weeks", populate: {path: "days", populate: {path: "debtItems"}}} )
+        .populate({path: "weeks", populate: {path: "days", populate: {path: "creditItems"}}} )
+        // .populate("targets", "name email family accounts role region")
+        .populate("holders", "name email family accounts role region")
+        .exec();
+        console.log('----> month:', month)
+
+        if (month) {
+            res.status(200).json(month);
+        } else {
+            console.log('----x getMonth  Month.find (calendar.controller 102) NO month for date:', req.body.year, req.body.month)
+            res.status(200).json({error: "NO MONTH FOUND"})
+        }
+
+    } catch (err) {
+        console.log('----x getMonth Month.findOne (calendar.controller 107):', err)
+        res.status(200).json({error: "dB access failed"})
+    }
+        
+}
 
 exports.updateMonth = async (req,res) => {
     const month = req.body.month;
@@ -87,6 +140,32 @@ exports.updateMonth = async (req,res) => {
     } 
   };
   
+exports.getWeek = async (req, res) => {
+    console.log('----> getWeek (calendar.controller 91)', req.body.year, req.body.week)
+    try {
+        const week = await Week.findOne({ year: req.body.year, number: req.body.week })
+        .populate("days", "dayId date dayName number debtItems creditItems accumulatedDebt accumulatedCredit targets holders")
+        .populate({path: "days", populate: {path: "debtItems"}})
+        .populate({path: "days", populate: {path: "creditItems"}})
+        // .populate("targets", "name email family accounts role region")
+        // .populate("holders", "name email family accounts role region")
+        .exec();
+        console.log('----> week:', week)
+
+        if (week) {
+            res.status(200).json(week);
+        } else {
+            console.log('----x getWeek  Week.find (calendar.controller 102) NO WEEK for date:', req.body.year, req.body.week)
+            res.status(200).json({error: "NO WEEK FOUND"})
+        }
+
+    } catch (err) {
+        console.log('----x getWeek Week.findOne (calendar.controller 107):', err)
+        res.status(200).json({error: "dB access failed"})
+    }
+        
+}
+
 exports.updateWeek = async (req,res) => {
     const week = req.body.week;
     console.log('---- updateWeek (calendar.ctrlr 89):', week)
