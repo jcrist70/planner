@@ -36,8 +36,8 @@ Date.prototype.getWeek = function() {
 exports.addDebt = async (req,res) => {
     const email = req.email;
     const debt = req.body.debt;
-    console.log('----> addDebt (debt.controller 15) debt:', debt)
-    console.log('---> addDebt (debt.controller 16) email:', email)
+    console.log('----> addDebt (debt.controller 39) debt:', debt)
+    console.log('---> addDebt (debt.controller 40) email:', email)
     const dateArr = debt.startDate.split('-');
     let month = parseInt(dateArr[0]) - 1;
     const day = parseInt(dateArr[1]);
@@ -54,7 +54,7 @@ exports.addDebt = async (req,res) => {
     const first = new Date(date.getFullYear(), date.getMonth(), 1);
     console.log('first:', first) 
     const currentWeekNumber = date.getWeek();
-    console.log('---> addDebt (debt.controller 18) dateArr:', month, day, year, date, dateNext)
+    console.log('---> addDebt (debt.controller 57) dateArr:', month, day, year, date, dateNext)
     console.log('currentWeekNumber:', currentWeekNumber)
 
     let dayLabel = new Date(year + "-" + month + "-01").getDay();
@@ -80,12 +80,20 @@ exports.addDebt = async (req,res) => {
                     // if not found, try create new DebtItem
                     try {
                         const createdDebt = await new DebtItem(debt).save();
-                        console.log("----> addDebt (debt.controller 95) createdDebt with updates:", createdDebt);
+                        console.log("----> addDebt (debt.controller 83) createdDebt with updates:", createdDebt);
                         
-                        dbDay = await Day.find({ date: {$gt: date, $lt: dateNext} });
-                        console.log('---> addDebt (debt.controller 76) dbDay:', dbDay, dbDay.length)
-                                
-                        if (dbDay.length === 0) {
+                        // dbDay = await Day.find({ date: {$gt: date, $lt: dateNext} });
+                        dbDay = await Day.findOneAndUpdate(
+                            { date: {$gt: date, $lt: dateNext} },
+                            {   
+                                $push: { debtItems: createdDebt._id },
+                                $inc: { accumulatedDebt: parseInt(debt.price) }
+                            },
+                            { new: true }
+                        ).exec();
+                        console.log('---> addDebt (debt.controller 94) dbDay:', dbDay)
+                        if (!dbDay) {       
+                        // if (dbDay.length === 0) {
                             const newDay = {   
                                 dayId: uuid(),
                                 date: new Date(),
@@ -103,10 +111,19 @@ exports.addDebt = async (req,res) => {
                                 console.log("!!! Day CREATED", createdDay);
                                 dbDay = createdDay;
 
-                                dbWeek = await Week.find({ year, number: currentWeekNumber });
-                                console.log('---> addDebt (debt.controller 86) dbWeek:', dbWeek)
+                                // dbWeek = await Week.find({ year, number: currentWeekNumber });
+                                dbWeek = await Week.findOneAndUpdate(
+                                    { year, number: currentWeekNumber },
+                                    {   
+                                        $push: { days: dbDay._id },
+                                        $inc: { accumulatedDebt: parseInt(debt.price) }
+                                    },
+                                    { new: true }
+                                ).exec();
+
+                                console.log('---> addDebt (debt.controller 124) dbWeek:', dbWeek)
                                 
-                                if (dbWeek.length === 0) {
+                                if (!dbWeek) {
                                     const newWeek = {  
                                         weekId: uuid(),
                                         year,
@@ -124,16 +141,19 @@ exports.addDebt = async (req,res) => {
                                     console.log('WEEK EXISTS, UPDATE!!')
                                 }
 
-                                dbMonth = await Month.find({ year, number: month });
-                                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!')
-
+                                // dbMonth = await Month.find({ year, number: month });
+                                dbMonth = await Month.findOneAndUpdate(
+                                    { year, number: month },
+                                    {   
+                                        $push: { weeks: dbWeek._id },
+                                        $inc: { accumulatedDebt: parseInt(debt.price) }
+                                    },
+                                    { new: true }
+                                ).exec();
+                                // console.log('year, month, dayLabel, daysOfWeek[dayLabel],', year, month, dayLabel, daysOfWeek[dayLabel])
+                                console.log('---> addDebt (debt.controller 154) dbMonth:', dbMonth)
                                 
-                                
-                                console.log('year, month, dayLabel, daysOfWeek[dayLabel],', year, month, dayLabel, daysOfWeek[dayLabel])
-                                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                                
-                                console.log('---> addDebt (debt.controller 104) dbMonth:', dbMonth, dbWeek)
-                                if (dbMonth.length === 0) {
+                                if (!dbMonth) {
                                     
                                     const newMonth = {
                                         monthId: uuid(),
@@ -155,9 +175,9 @@ exports.addDebt = async (req,res) => {
                                 } else {
                                     console.log('MONTH EXISTS, UPDATE!!')
                                 }
-                                existing = null;
-                                dbYear = await Year.find({ number: year });
-                                existing = await Year.findOneAndUpdate(
+
+                                // dbYear = await Year.find({ number: year });
+                                dbYear = await Year.findOneAndUpdate(
                                     { number: year.number },
                                     {   
                                         $push: { months: dbMonth._id },
@@ -165,9 +185,9 @@ exports.addDebt = async (req,res) => {
                                     },
                                     { new: true }
                                 ).exec();
-                                console.log('---> addDebt (debt.controller 111) dbYear:', year, dbYear)
-
-                                if (dbYear.length === 0) {
+                                console.log('---> addDebt (debt.controller 188) dbYear:', year, dbYear)
+                                
+                                if (!dbYear) {
                                     console.log('CREATE YEAR!!')
                                     const newYear = {   
                                         yearId: uuid(),
@@ -187,30 +207,33 @@ exports.addDebt = async (req,res) => {
                                 
 
                             } catch (err) {
-                                console.log('----x addDebt new (debt.ctrlr 118):', err);
+                                console.log('----x addDebt new (debt.ctrlr 210):', err);
                                 res.send({error: "dB access failed"})
                             }
-                        } 
+                        } else {
+                            console.log('----x addDebt find (debt.controller 214):', err)
+                            res.status(200).json({error: "dB access failed"})
+                        }
                         
                         res.status(200).json(createdDebt);
                     } catch (err) {
-                        console.log('----x addDebt new User (debt.controller 98):', err)
+                        console.log('----x addDebt new User (debt.controller 220):', err)
                         res.status(200).json({error: "dB access failed"})
                     }
                 }
             } catch (err) {
-                console.log('----x addDebt new User (debt.controller 103):', err)
+                console.log('----x addDebt new User (debt.controller 225):', err)
                 res.status(200).json({error: "dB access failed"})
             }
         } else {
-            console.log('----x addDebt findOne (debt.controller 107) NO dbUser!')
+            console.log('----x addDebt findOne (debt.controller 229) NO dbUser!')
             res.status(200).json({error: "dB access failed"})
         }
 
         
         
     } catch (err) {
-        console.log('----x addDebt findOne (debt.controller 111):', err)
+        console.log('----x addDebt findOne (debt.controller 236):', err)
         res.status(200).json({error: "dB access failed"})
     }
 
