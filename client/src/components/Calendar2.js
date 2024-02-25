@@ -54,6 +54,7 @@ const Calendar = ({ selectedDate, data }) => {
       console.log('selectedMonthData:', selectedMonthData)
       setMonthData(selectedMonthData);
       setmonths(allMonthData);
+      renderDays();
     }, [data])
     // const getYear = async (year) => {
     //   const yr = await getYearApi(year);
@@ -100,7 +101,7 @@ const Calendar = ({ selectedDate, data }) => {
       let dayList = [];
       let weekData = [];
       for (let i = 0; i < daysInMonth+skipNumber-1; i++) {
-        // console.log('i, i%8, weekCount:', i, i%8, weekCount)
+        console.log('i, i%8, weekCount:', i, i%8, weekCount)
         // console.log('weekCount, data:', weekCount, data.find(e => e.number === weekCount))
         if (i === 0 || i%8-skipNumber-2+adjust-2 === 0) { 
           dayList.push(<div>wk {weekCount}</div>);

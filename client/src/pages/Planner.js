@@ -138,7 +138,8 @@ const Planner = () => {
   // }, [yearData])
 
   const getYearData = async () => {
-    const dbYear = await getYearApi(2024);
+    console.log('getYearData year:', year)
+    const dbYear = await getYearApi(year);
     // await extractMonthData(dbYear);
     await setYearData(dbYear.data);
     console.log('-------> dbYear.data:', month, dbYear.data)
@@ -151,6 +152,8 @@ const Planner = () => {
 
   useEffect(() => {
     const yr = new Date(startDate).getFullYear();
+    console.log('updated year -> yr:', yr)
+    
     setYear(yr);
     const mo = new Date(startDate).getMonth() + 1; 
     setMonth(mo);

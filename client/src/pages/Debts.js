@@ -158,7 +158,7 @@ const Debts = () => {
               <DatePicker className="debt-bar-element-start-date" selected={startDate} onChange={(date) => setStartDate(date)} />
               <DatePicker className="debt-bar-element-end-date" selected={endDate} onChange={(date) => setEndDate(date)} />
               <input className="debt-bar-element-item" placeholder='item' onChange={(e) => setItem(e.target.value)} />
-              <input className="debt-bar-element-price" placeholder='price' onChange={(e) => setPrice(e.target.value)} />   
+              <input className="debt-bar-element-price" placeholder='price' type='number' onChange={(e) => setPrice(e.target.value)} />   
               <Select maxMenuHeight={150} 
               className=""
               placeholder='select cycle'

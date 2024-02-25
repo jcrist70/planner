@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
+const { v4: uuid } = require('uuid');
 
 const Year = require('../models/year.model');
 const Month = require('../models/month.model');
@@ -16,6 +17,17 @@ Date.prototype.getWeek = function() {
     return Math.ceil(dayOfYear/7)
   };
 
+  const daysOfWeek = [
+    {index: 0, label: "#"},
+    {index: 1, label: "Monday"},
+    {index: 2, label: "Tuesday"},
+    {index: 3, label: "Wednesday"},
+    {index: 4, label: "Thursday"},
+    {index: 5, label: "Friday"},
+    {index: 6, label: "Saturday"},
+    {index: 7, label: "Sunday"},
+  ];
+
   // Add to an existing dar OR create a day to add it to
   // AND, if created a day, add that day to its week.  Creating
   // the week if it does not exist AND adding the week to its month.
@@ -27,36 +39,35 @@ exports.addDebt = async (req,res) => {
     console.log('----> addDebt (debt.controller 15) debt:', debt)
     console.log('---> addDebt (debt.controller 16) email:', email)
     const dateArr = debt.startDate.split('-');
-    const month = parseInt(dateArr[0]) - 1;
+    let month = parseInt(dateArr[0]) - 1;
     const day = parseInt(dateArr[1]);
     const year = parseInt(dateArr[2]);
+    let days = new Date(year, month+1, 0).getDate();
+    console.log('days:', days) 
+    
     let date = new Date(year, month, day);
     // date = date.split('T')[0];
     // date = date.toLocaleDateString();
     // date = date.getFullYear()+'-'+(date.getMonth())+'-'+date.getDate(); 
     const dateNext = new Date(year, month, day+1);
-    const first = new Date(date.getFullYear(), date.getMonth(), 1)
+    month += 1;
+    const first = new Date(date.getFullYear(), date.getMonth(), 1);
     console.log('first:', first) 
-    const currentWeekNumber = first.getWeek();
+    const currentWeekNumber = date.getWeek();
     console.log('---> addDebt (debt.controller 18) dateArr:', month, day, year, date, dateNext)
     console.log('currentWeekNumber:', currentWeekNumber)
+
+    let dayLabel = new Date(year + "-" + month + "-01").getDay();
+    dayLabel += 1;
+
     let dbDay = null;
     let dbWeek = null;
     let dbMonth = null;
     let dbYear = null;
     let dbUser = null;
     let debtItem = null;
+    let existing = null;
     try {
-
-        dbDay = await Day.find({ date: {$gt: date, $lt: dateNext} });
-        // dbDay = await Day.find({ date });
-        console.log('---> addDebt (debt.controller 53) dbDay:', dbDay)
-        dbWeek = await Week.find({ year, number: currentWeekNumber });
-        console.log('---> addDebt (debt.controller 55) dbWeek:', dbWeek)
-        dbMonth = await Month.find({ year, number: month });
-        console.log('---> addDebt (debt.controller 57) dbMonth:', dbWeek)
-        dbYear = await Year.find({ number: year });
-        console.log('---> addDebt (debt.controller 59) dbYear:', dbWeek)
 
         dbUser = await User.findOne({ email });
         debt.user = dbUser._id;
@@ -69,23 +80,137 @@ exports.addDebt = async (req,res) => {
                     // if not found, try create new DebtItem
                     try {
                         const createdDebt = await new DebtItem(debt).save();
-                        console.log("----> addDebt (debt.controller 23) createdDebt with updates:", createdDebt);
+                        console.log("----> addDebt (debt.controller 95) createdDebt with updates:", createdDebt);
+                        
+                        dbDay = await Day.find({ date: {$gt: date, $lt: dateNext} });
+                        console.log('---> addDebt (debt.controller 76) dbDay:', dbDay, dbDay.length)
+                                
+                        if (dbDay.length === 0) {
+                            const newDay = {   
+                                dayId: uuid(),
+                                date: new Date(),
+                                dayName: daysOfWeek[dayLabel].label,
+                                number: day,
+                                debtItems: [createdDebt._id],
+                                creditItems: [],
+                                accumulatedDebt: parseInt(debt.price),
+                                accumulatedCredit: null,
+                                targets: [],
+                                holders: [],
+                            }
+                            try {
+                                const createdDay = await new Day(newDay).save();
+                                console.log("!!! Day CREATED", createdDay);
+                                dbDay = createdDay;
+
+                                dbWeek = await Week.find({ year, number: currentWeekNumber });
+                                console.log('---> addDebt (debt.controller 86) dbWeek:', dbWeek)
+                                
+                                if (dbWeek.length === 0) {
+                                    const newWeek = {  
+                                        weekId: uuid(),
+                                        year,
+                                        number: currentWeekNumber,
+                                        accumulatedDebt: parseInt(debt.price),
+                                        accumulatedCredit: 0,
+                                        days: [dbDay._id],
+                                        targets: [],
+                                        holders: [],
+                                    }
+                                    const createdWeek = await new Week(newWeek).save();
+                                    dbWeek = createdWeek;
+                                    console.log("!!! Week CREATED", createdWeek);
+                                } else {
+                                    console.log('WEEK EXISTS, UPDATE!!')
+                                }
+
+                                dbMonth = await Month.find({ year, number: month });
+                                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
+                                
+                                
+                                console.log('year, month, dayLabel, daysOfWeek[dayLabel],', year, month, dayLabel, daysOfWeek[dayLabel])
+                                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                                
+                                console.log('---> addDebt (debt.controller 104) dbMonth:', dbMonth, dbWeek)
+                                if (dbMonth.length === 0) {
+                                    
+                                    const newMonth = {
+                                        monthId: uuid(),
+                                        year: year,
+                                        number: month,
+                                        days: days,
+                                        firstDay: daysOfWeek[dayLabel],
+                                        accumulatedDebt: parseInt(debt.price),
+                                        accumulatedCredit: 0,
+                                        weeks: [dbWeek._id],
+                                        targets: [],
+                                        holders: [],
+                                    }
+                                    console.log('=--==-=-==-=->CREATE MONTH newMonth:', newMonth)
+
+                                    const createdMonth = await new Month(newMonth).save();
+                                    console.log("Month CREATED", createdMonth);
+                                    dbMonth = createdMonth;
+                                } else {
+                                    console.log('MONTH EXISTS, UPDATE!!')
+                                }
+                                existing = null;
+                                dbYear = await Year.find({ number: year });
+                                existing = await Year.findOneAndUpdate(
+                                    { number: year.number },
+                                    {   
+                                        $push: { months: dbMonth._id },
+                                        $inc: { accumulatedDebt: parseInt(debt.price) }
+                                    },
+                                    { new: true }
+                                ).exec();
+                                console.log('---> addDebt (debt.controller 111) dbYear:', year, dbYear)
+
+                                if (dbYear.length === 0) {
+                                    console.log('CREATE YEAR!!')
+                                    const newYear = {   
+                                        yearId: uuid(),
+                                        number: year,
+                                        accumulatedDebt: parseInt(debt.price),
+                                        accumulatedCredit: 0,
+                                        months: [dbMonth._id],
+                                        targets: [],
+                                        holders: []
+                                    }
+                                    const createdYear = await new Year(newYear).save();
+                                    console.log("Year CREATED", createdYear);
+                                } else {
+                                    console.log('YEAR EXISTS, UPDATE!!')
+                                }
+                                
+                                
+
+                            } catch (err) {
+                                console.log('----x addDebt new (debt.ctrlr 118):', err);
+                                res.send({error: "dB access failed"})
+                            }
+                        } 
+                        
                         res.status(200).json(createdDebt);
                     } catch (err) {
-                        console.log('----x addDebt new User (debt.controller 26):', err)
+                        console.log('----x addDebt new User (debt.controller 98):', err)
                         res.status(200).json({error: "dB access failed"})
                     }
                 }
             } catch (err) {
-                console.log('----x addDebt new User (debt.controller 31):', err)
+                console.log('----x addDebt new User (debt.controller 103):', err)
                 res.status(200).json({error: "dB access failed"})
             }
         } else {
-            console.log('----x addDebt findOne (debt.controller 35) NO dbUser!')
+            console.log('----x addDebt findOne (debt.controller 107) NO dbUser!')
             res.status(200).json({error: "dB access failed"})
         }
+
+        
+        
     } catch (err) {
-        console.log('----x addDebt findOne (debt.controller 36):', err)
+        console.log('----x addDebt findOne (debt.controller 111):', err)
         res.status(200).json({error: "dB access failed"})
     }
 
