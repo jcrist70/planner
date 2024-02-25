@@ -99,6 +99,11 @@ const Debts = () => {
     )
   }
 
+  // Add to an existing dar OR create a day to add it to
+  // AND, if created a day, add that day to its week.  Creating
+  // the week if it does not exist AND adding the week to its month.
+  // Creating the month if it does not exist AND adding it to its year
+  // creating the year if it sdoes not exist.
   const addDebt = () => {
     
     let formattedStartDate = startDate.toISOString().split('T')[0];
@@ -108,32 +113,28 @@ const Debts = () => {
     dateArr = formattedEndDate.split('-');
     formattedEndDate = dateArr[1] + '-' + dateArr[2] + '-' + dateArr[0];
 
+    const debt = {
+      debtId: uuid(),
+      type: type.label,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+      item,
+      price,
+      cycle: cycle.label,
+      frequency: freq,
+      supplier: supplier.value,
+      account: account.label,
+    }
+    console.log('addDebt debt:', debt)
+    console.log('addDebt tableData:', tableData)
     // if (!Object.values(debt).includes(null)) {
-    if ((type && type.label != null) && formattedStartDate != null && item != null && price != null && (account && account.label != null)) {
-      
-      const debt = {
-        debtId: uuid(),
-        type: type.label,
-        startDate: formattedStartDate,
-        endDate: formattedEndDate,
-        item,
-        price,
-        cycle: cycle && cycle.label || 'one time',
-        frequency: freq,
-        supplier: supplier.value,
-        account: account.label,
-      }
-      console.log('addDebt debt:', debt)
-      console.log('addDebt tableData:', tableData)
-      
+    if (debt.type != null && debt.startDate != null && debt.item != null && debt.price != null && debt.account != null) {
       const data = [...tableData];
       data.push(debt);
       // data.push({type: 'util', item: 'firewood', price: 1410, cycle: 'mo', frequency: 1, date: "02/09/24"});
       console.log('addDebt data:', data)
       setTableData(data);
-
       addDebtApi(debt);
-
     } else {
       caches.delete('Every field must have a value!')
     }
@@ -183,7 +184,7 @@ const Debts = () => {
               options={accounts} 
               onChange={(option) => setAccount(option)} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }} />  
-              <div className="debt-bar-element-add" onClick={addDebt}>Add</div>  
+              <div className="debt-bar-element-add" style={{ color: "green" }} onClick={addDebt}>Add</div>  
             
             </div>
             <div className='grid-4r1c-13h11w'>

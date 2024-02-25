@@ -28,6 +28,8 @@ const Calendar = ({ selectedDate, data }) => {
     // const [ date, setDate ] = useState(new Date(selectedDate));
     const [ year, setYear ] = useState(date.getFullYear());
     const [ month, setMonth ] = useState(date.getMonth());
+    const [ monthData, setMonthData ] = useState({});
+
     const [ dbYear, setDbYear ] = useState({});
     const [ firstDay, setFirstDay ] = useState('')
     const [ skipNumber, setSkiopNumber ] = useState(0);
@@ -39,9 +41,19 @@ const Calendar = ({ selectedDate, data }) => {
 
     useEffect(() => {
       // getYear();
-      const monthData = data.months;
-      console.log('monthData:', monthData)
-      setmonths(monthData);
+      const allMonthData = data.months;
+      console.log('allMonthData:', allMonthData)
+      console.log('month selected:', month+1)
+      let selectedMonthData = {};
+      allMonthData && allMonthData.forEach((m, i) => {
+        console.log('i, m:', i, m)
+        if (m.number === month+1) {
+          selectedMonthData = m;
+        }   
+      })
+      console.log('selectedMonthData:', selectedMonthData)
+      setMonthData(selectedMonthData);
+      setmonths(allMonthData);
     }, [data])
     // const getYear = async (year) => {
     //   const yr = await getYearApi(year);
@@ -76,6 +88,7 @@ const Calendar = ({ selectedDate, data }) => {
     };
 
     const dayClickHandler = async (target) => {
+      console.log('dayClickHandler:', target)
       const id = JSON.parse(target.id);
       console.log('--> dayClickHandler week, day:', id.week, id.day)
     }
@@ -84,22 +97,44 @@ const Calendar = ({ selectedDate, data }) => {
     let adjust = 0;
     const renderDays = () => {
       // console.log('daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek:', daysInMonth, skipNumber, daysInMonth+skipNumber, daysOfWeek)
-      const dayList = [];
+      let dayList = [];
+      let weekData = [];
       for (let i = 0; i < daysInMonth+skipNumber-1; i++) {
         // console.log('i, i%8, weekCount:', i, i%8, weekCount)
         // console.log('weekCount, data:', weekCount, data.find(e => e.number === weekCount))
         if (i === 0 || i%8-skipNumber-2+adjust-2 === 0) { 
           dayList.push(<div>wk {weekCount}</div>);
+          if (data.months != null && monthData.weeks != null) {
+            weekData = monthData.weeks.find(e => e.number === weekCount);
+            console.log('weekCount-1, weekData:', weekCount, weekData)
+          }
           weekCount++;
           adjust++;
         }
+        
         if (i < skipNumber -1) {  
           dayList.push(<div></div>);
         } else if ((i%8+adjust) !== 0) {
+          let dayData = {};
+          if (weekData != null && weekData.days != null) {
+            dayData = weekData.days.find(e => e.number === i-skipNumber+2);
+            console.log('day, dayData:', i-skipNumber+2, dayData)
+          }
+          let dayDebt = 0;
+          dayData && dayData.debtItems && dayData.debtItems.forEach((dbt) => {
+            dayDebt += dbt.price;
+          })
+          let dayCredit = 0;
+          dayData && dayData.creditItems && dayData.creditItems.forEach((cdt) => {
+            dayCredit += cdt.price;
+          })
+          
           const id = JSON.stringify({day: i-skipNumber+2, week: weekCount-1});
           dayList.push(
           <div id={id} onClick={e => dayClickHandler(e.target)}>
-            {i-skipNumber+2}
+            {i-skipNumber+2}<br/>
+            {dayDebt > 0 && <p id={id} className='day-item'>debts ${ dayDebt }</p>}
+            {dayCredit > 0 && <p id={id} className='day-item'>credits ${ dayCredit }</p>}
           </div>
           );
         } 

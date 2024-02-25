@@ -137,7 +137,16 @@
    align-items: center;
    font-size: 16px;
    font-weight: 500;
-   background-color: rgb(179, 255, 190);
+   color: black;
+   background-color: rgb(136, 255, 154);
    border-radius: 4px;
  }
- 
+ .debt-bar-element-add:hover {
+   background-color: rgb(179, 255, 190);
+   height: 38px;
+ }
+ .debt-bar-element-add:active {
+   background-color: rgb(179, 255, 190);
+   box-shadow: 0 4px #666;
+   transform: translateY(3px);
+ }

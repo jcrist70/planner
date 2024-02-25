@@ -13,6 +13,13 @@
     column-gap: 3px;
     
 }
+.day-item {
+    font-size: 12px;
+    font-weight: 300;
+    margin-top: 20px;
+    margin-left: -20px;
+    padding: 0;
+}
 
 .calendar__dates {
     display: grid;

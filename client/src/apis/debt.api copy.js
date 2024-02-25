@@ -17,7 +17,7 @@ export const getDebtsApi = async (debt) => {
   };
 
 export const addDebtApi = async (debt) => {
-    console.log('-----> addDebt debt:', debt)
+    // console.log('-----> addDebt debt:', debt)
     const promise = await new Promise((resolve, reject) => {
       const axiosInstance = axios.create({
         withCredentials: true
