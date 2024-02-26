@@ -46,10 +46,14 @@ exports.addDebt = async (req,res) => {
     console.log('days:', days) 
     
     let date = new Date(year, month, day);
+    date.setHours(date.getHours() - 5);
+    
     // date = date.split('T')[0];
     // date = date.toLocaleDateString();
     // date = date.getFullYear()+'-'+(date.getMonth())+'-'+date.getDate(); 
-    const dateNext = new Date(year, month, day+1);
+    let dateNext = new Date(year, month, day+1);
+    dateNext.setHours(date.getHours() - 5);
+
     month += 1;
     const first = new Date(date.getFullYear(), date.getMonth(), 1);
     console.log('first:', first) 
@@ -96,7 +100,7 @@ exports.addDebt = async (req,res) => {
                         // if (dbDay.length === 0) {
                             const newDay = {   
                                 dayId: uuid(),
-                                date: new Date(),
+                                date,
                                 dayName: daysOfWeek[dayLabel].label,
                                 number: day,
                                 debtItems: [createdDebt._id],

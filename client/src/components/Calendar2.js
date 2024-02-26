@@ -119,11 +119,12 @@ const Calendar = ({ selectedDate, data }) => {
           let dayData = {};
           if (weekData != null && weekData.days != null) {
             dayData = weekData.days.find(e => e.number === i-skipNumber+2);
-            console.log('day, dayData:', i-skipNumber+2, dayData)
+            console.log('day, dayData:', i-skipNumber+2, dayData, dayData && dayData.debtItems && dayData.debtItems.length, dayData && dayData.debtItems)
           }
           let dayDebt = 0;
           dayData && dayData.debtItems && dayData.debtItems.forEach((dbt) => {
             dayDebt += dbt.price;
+            console.log('dayDebt:', i-skipNumber+2, dbt, dayDebt)
           })
           let dayCredit = 0;
           dayData && dayData.creditItems && dayData.creditItems.forEach((cdt) => {
