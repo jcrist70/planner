@@ -84,7 +84,7 @@ exports.addDebt = async (req,res) => {
             try {
                 console.log('type, price, item', day, month, year, debt.type, debt.price, debt.item)
                 debtItem = await DebtItem.findOneAndUpdate(
-                    { day, month, year, type: debt.type, price: debt.price, item: debt.item },
+                    { day, month, year, type: debt.type, item: debt.item },
                     { type: debt.type, price: debt.price, item: debt.item },
                     { new: true }
                     ).exec();
