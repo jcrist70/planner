@@ -44,6 +44,10 @@ exports.addDebt = async (req,res) => {
     const year = parseInt(dateArr[2]);
     let days = new Date(year, month+1, 0).getDate();
     console.log('days:', days) 
+
+    debt.day = day;
+    debt.month = month+1;
+    debt.year = year;
     
     let date = new Date(year, month, day);
     date.setHours(date.getHours() - 5);
@@ -52,7 +56,6 @@ exports.addDebt = async (req,res) => {
     // date = date.toLocaleDateString();
     // date = date.getFullYear()+'-'+(date.getMonth())+'-'+date.getDate(); 
     let dateNext = new Date(year, month, day+1);
-    dateNext.setHours(date.getHours() - 5);
 
     month += 1;
     const first = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -79,7 +82,15 @@ exports.addDebt = async (req,res) => {
         if (dbUser) {
             // first try findOneAndUpdate
             try {
-                debtItem = await DebtItem.findOne({ debtId: debt.debtId });
+                console.log('type, price, item', day, month, year, debt.type, debt.price, debt.item)
+                debtItem = await DebtItem.findOneAndUpdate(
+                    { day, month, year, type: debt.type, price: debt.price, item: debt.item },
+                    { type: debt.type, price: debt.price, item: debt.item },
+                    { new: true }
+                    ).exec();
+                // type: debt.type, price: debt.price, item: debt.item
+                console.log("----> DebtItem.findOne (debt.controller 82) debtItem:", debtItem);
+                // if (!debtItem || (debtItem && debtItem.debtId !== debt.debtId)) {
                 if (!debtItem) {
                     // if not found, try create new DebtItem
                     try {
@@ -88,14 +99,15 @@ exports.addDebt = async (req,res) => {
                         
                         // dbDay = await Day.find({ date: {$gt: date, $lt: dateNext} });
                         dbDay = await Day.findOneAndUpdate(
-                            { date: {$gt: date, $lt: dateNext} },
+                            // { date: {$gt: date, $lt: dateNext} },
+                            { number: day, month, year },
                             {   
                                 $push: { debtItems: createdDebt._id },
                                 $inc: { accumulatedDebt: parseInt(debt.price) }
                             },
                             { new: true }
                         ).exec();
-                        console.log('---> addDebt (debt.controller 94) dbDay:', dbDay)
+                        console.log('---> addDebt (debt.controller 98) dbDay:', dbDay)
                         if (!dbDay) {       
                         // if (dbDay.length === 0) {
                             const newDay = {   
@@ -103,6 +115,8 @@ exports.addDebt = async (req,res) => {
                                 date,
                                 dayName: daysOfWeek[dayLabel].label,
                                 number: day,
+                                month,
+                                year,
                                 debtItems: [createdDebt._id],
                                 creditItems: [],
                                 accumulatedDebt: parseInt(debt.price),
@@ -212,32 +226,34 @@ exports.addDebt = async (req,res) => {
 
                             } catch (err) {
                                 console.log('----x addDebt new (debt.ctrlr 210):', err);
-                                res.send({error: "dB access failed"})
+                                // res.send({error: "dB access failed"})
                             }
                         } else {
-                            console.log('----x addDebt find (debt.controller 214):', err)
-                            res.status(200).json({error: "dB access failed"})
+                            console.log('----x addDebt find (debt.controller 214):')
+                            // res.status(200).json({error: "dB access failed"})
                         }
                         
                         res.status(200).json(createdDebt);
                     } catch (err) {
-                        console.log('----x addDebt new User (debt.controller 220):', err)
-                        res.status(200).json({error: "dB access failed"})
+                        console.log('---- addDebtDay EXISTS UPDATE (debt.controller 226):')
+                        // res.status(200).json({msg: "UPDATE DAY"})
                     }
+                } else {
+                    console.log('DebtItem EXISTS, UPDATE!')
                 }
             } catch (err) {
-                console.log('----x addDebt new User (debt.controller 225):', err)
-                res.status(200).json({error: "dB access failed"})
+                console.log('----x addDebt (debt.controller 231):', err)
+                // res.status(200).json({error: "dB access failed"})
             }
         } else {
-            console.log('----x addDebt findOne (debt.controller 229) NO dbUser!')
+            console.log('----x addDebt findOne (debt.controller 235) NO dbUser!')
             res.status(200).json({error: "dB access failed"})
         }
 
         
         
     } catch (err) {
-        console.log('----x addDebt findOne (debt.controller 236):', err)
+        console.log('----x addDebt findOne (debt.controller 242):', err)
         res.status(200).json({error: "dB access failed"})
     }
 

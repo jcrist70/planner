@@ -8,6 +8,15 @@ const creditItemSchema = new mongoose.Schema(
         required: true,
         unique: true,
     },
+    day: {
+        type: Number,
+    },
+    month: {
+        type: Number,
+    },
+    year: {
+        type: Number,
+    },
     type: {
         type: String,
     },

@@ -17,6 +17,12 @@ const daySchema = new mongoose.Schema(
     number: {
         type: Number,
     },
+    month: {
+        type: Number,
+    },
+    year: {
+        type: Number,
+    },
     debtItems: [{
         type: ObjectId, ref: 'DebtItem',
     }],
