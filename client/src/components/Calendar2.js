@@ -135,8 +135,8 @@ const Calendar = ({ selectedDate, data }) => {
           dayList.push(
           <div id={id} onClick={e => dayClickHandler(e.target)}>
             {i-skipNumber+2}<br/>
-            {dayDebt > 0 && <p id={id} className='day-item'>debts ${ dayDebt }</p>}
-            {dayCredit > 0 && <p id={id} className='day-item'>credits ${ dayCredit }</p>}
+            {dayDebt > 0 && <p id={id} className='day-item'>debts ${ dayDebt.toFixed(2) }</p>}
+            {dayCredit > 0 && <p id={id} className='day-item'>credits ${ dayCredit.toFixed(2) }</p>}
           </div>
           );
         } 

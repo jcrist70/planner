@@ -1,8 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
-import { Anchor, Text } from '@mantine/core';
+import { ActionIcon, Button, Flex, Text, Tooltip, Anchor } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
+
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 
 const TableDebts = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo', frequency: 4, date: "today"}], emptyMsg = "You haven't entered any data yet. " }) => {
     const isDesktop = useMediaQuery('(min-width: 1200px)');
@@ -34,6 +36,23 @@ const TableDebts = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
     //   data[i].userScore = userScoreStr;
     // });
     console.log('###################> DATA:', data);
+
+    // const handleSaveDebt = async (e) => {
+    //   console.log('e:', e)
+    // }
+    const handleSaveDebt = async ({ values, row, table }) => {
+      console.log('values:', values)
+      console.log('row:', row)
+      console.log('table:', table)
+      // const newValidationErrors = validateUser(values);
+      // if (Object.values(newValidationErrors).some((error) => error)) {
+      //   setValidationErrors(newValidationErrors);
+      //   return;
+      // }
+      // setValidationErrors({});
+      // await updateUser(values);
+      table.setEditingRow(null); //exit editing mode
+    };
 
     const columns = useMemo(() => [
       {
@@ -114,6 +133,25 @@ const TableDebts = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
       enableStickyHeader: true,
       enableStickyFooter: true,
       enablePinning: true,
+      onEditingRowSave: handleSaveDebt,
+      editDisplayMode: 'row', // ('modal', 'cell', 'table', and 'custom' are also available)
+      enableEditing: true,
+      getRowId: (row) => row.id,
+      renderRowActions: ({ row, table }) => (
+        <Flex gap="md">
+          <Tooltip label="Edit">
+            <ActionIcon onClick={() => table.setEditingRow(row)}>
+              <IconEdit />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Delete">
+            <ActionIcon color="red" onClick={() => console.log(row)}>
+              <IconTrash />
+            </ActionIcon>
+          </Tooltip>
+        </Flex>
+      ),
+
       // manualFiltering: true,
       // manualSorting: true,
       // enableColumnVirtualization: true,
@@ -144,6 +182,7 @@ const TableDebts = ({ data = [{type: 'grocery', item: '', price: 1, cycle: 'mo',
       //   </Text>
       // ),
       renderEmptyRowsFallback: () => <Text style={{ display: "flex", justifyContent: "center"}}>{emptyMsg}</Text>
+      
     });
   
     return (<MantineReactTable 
